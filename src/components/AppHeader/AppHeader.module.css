@@ -1,0 +1,24 @@
+.header {
+    background-color: rgba(28, 28, 33, 1);
+    min-height: 88px;
+    display: flex;
+    justify-content: center;
+}
+
+.headerGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    align-items: center;
+    justify-items: center;
+    width: 1280px;
+}
+
+.leftBlock {
+    justify-self: start;
+    display: flex;
+    gap: 8px;
+}
+
+.rightBlock {
+    justify-self: end;
+}
