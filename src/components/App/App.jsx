@@ -2,11 +2,12 @@ import React from 'react';
 import styles from "./App.module.css";
 import {serverUrl} from "../../constants";
 import AppHeader from "../AppHeader/AppHeader";
+import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
 
 
 
 function App() {
-  const [data, setData] = React.useState();
+  const [state, setState] = React.useState();
 
   React.useEffect(()=> {
     fetch(serverUrl)
@@ -16,13 +17,15 @@ function App() {
             }
             return Promise.reject(`Ошибка: ${res.status}`)
         })
-        .then(data => setData(data.data))
-        .catch(err => console.error((err)))
-  }, [])
+        .then(res => setState(res.data))}, [])
 
   return (
     <div>
         <AppHeader/>
+        <main className={styles.main}>
+            <BurgerIngredients props={state}/>
+            <div className={styles.section}></div>
+        </main>
     </div>
   );
 }
