@@ -3,9 +3,11 @@ import styles from "./BurgerIngredients.module.css";
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import Ingredient from "../Ingredient/Ingredient";
 
+
 function BurgerIngredients({props}) {
     const [current, setCurrent] = React.useState('one');
-    console.log(props);
+
+
     return (
         <section className={styles.container}>
             <h2 className="text text_type_main-large mt-10">Соберите бургер</h2>
@@ -27,7 +29,7 @@ function BurgerIngredients({props}) {
                         <ul className={styles.ingredients}>
                             {props && props
                                 .filter(item => item.type === "bun")
-                                .map(item => <Ingredient key={item._id} name={item.name} price={item.price} image={item.image} />)}
+                                .map(item => <Ingredient info={item} key={item._id} name={item.name} price={item.price} image={item.image} />)}
                         </ul>
                     </li>
                     <li>
@@ -35,7 +37,7 @@ function BurgerIngredients({props}) {
                         <ul className={styles.ingredients}>
                             {props && props
                                 .filter(item => item.type === "sauce")
-                                .map(item => <Ingredient key={item._id} name={item.name} price={item.price} image={item.image} />)}
+                                .map(item => <Ingredient info={item} key={item._id} name={item.name} price={item.price} image={item.image} />)}
                         </ul>
                     </li>
                     <li>
@@ -43,7 +45,7 @@ function BurgerIngredients({props}) {
                         <ul className={styles.ingredients}>
                             {props && props
                                 .filter(item => item.type === "main")
-                                .map(item => <Ingredient key={item._id} name={item.name} price={item.price} image={item.image} />)}
+                                .map(item => <Ingredient info={item} key={item._id} name={item.name} price={item.price} image={item.image} />)}
                         </ul>
                     </li>
                 </ul>

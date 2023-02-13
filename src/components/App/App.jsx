@@ -3,6 +3,7 @@ import styles from "./App.module.css";
 import {serverUrl} from "../../constants";
 import AppHeader from "../AppHeader/AppHeader";
 import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
+import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
 
 
 
@@ -24,7 +25,7 @@ function App() {
         <AppHeader/>
         <main className={styles.main}>
             <BurgerIngredients props={state}/>
-            <div className={styles.section}></div>
+            <BurgerConstructor />
         </main>
     </div>
   );

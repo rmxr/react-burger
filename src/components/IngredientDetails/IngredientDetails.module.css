@@ -1,0 +1,27 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.text {
+    line-height: 60px;
+}
+
+.name {
+    width: 520px;
+    margin: 0 auto 0;
+    text-align: center;
+}
+
+.infoBlock {
+    width: 520px;
+    margin: 32px auto 60px;
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+}
+
+.digits {
+    text-align: center;
+}

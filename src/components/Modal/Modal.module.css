@@ -1,0 +1,22 @@
+.popup {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 720px;
+    min-height: 500px;
+    border-radius: 40px;
+    border: 1px solid rgba(76, 76, 255, 0.2);
+    background-color: rgba(28, 28, 33, 1);
+    box-sizing: border-box;
+}
+
+.closeButton {
+    position: absolute;
+    top: 60px;
+    right: 40px;
+}
+
+.closeButton:hover {
+    opacity: .7;
+}
