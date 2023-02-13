@@ -8,7 +8,7 @@ import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
 
 
 function App() {
-  const [state, setState] = React.useState();
+  const [ingredients, setIngredients] = React.useState();
 
   React.useEffect(()=> {
     fetch(serverUrl)
@@ -18,14 +18,14 @@ function App() {
             }
             return Promise.reject(`Ошибка: ${res.status}`)
         })
-        .then(res => setState(res.data))}, [])
+        .then(res => setIngredients(res.data))}, [])
 
   return (
     <div>
         <AppHeader/>
         <main className={styles.main}>
-            <BurgerIngredients props={state}/>
-            <BurgerConstructor />
+            <BurgerIngredients props={ingredients}/>
+            <BurgerConstructor props={ingredients}/>
         </main>
     </div>
   );

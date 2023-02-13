@@ -4,6 +4,7 @@ import {Counter, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-com
 import Modal from "../Modal/Modal";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import PropTypes from "prop-types";
+import {ingredientsPropType} from "../../utils/constants";
 
 
 function Ingredient({name, price, image, info}){
@@ -32,7 +33,7 @@ Ingredient.propTypes = {
     name: PropTypes.string,
     price: PropTypes.number,
     image: PropTypes.string,
-    info: PropTypes.object,
+    info: ingredientsPropType,
 }
 
 export default Ingredient;

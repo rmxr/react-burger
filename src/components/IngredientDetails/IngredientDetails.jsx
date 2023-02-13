@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./IngredientDetails.module.css";
-import PropTypes from "prop-types";
+import {ingredientsPropType} from "../../utils/constants";
 
 function IngredientDetails({info}) {
     return(
@@ -34,7 +34,7 @@ function IngredientDetails({info}) {
 };
 
 IngredientDetails.propTypes = {
-    info: PropTypes.object,
+    info: ingredientsPropType,
 }
 
 export default IngredientDetails;
