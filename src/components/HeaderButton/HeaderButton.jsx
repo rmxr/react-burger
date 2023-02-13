@@ -1,19 +1,14 @@
 import React from "react";
 import styles from "./HeaderButton.module.css";
 import {BurgerIcon, ListIcon, ProfileIcon} from "@ya.praktikum/react-developer-burger-ui-components";
+import PropTypes from "prop-types";
 
-interface ButtonProps {
-    text: string;
-    type: string;
-    active: boolean;
-}
-
-const components: {[index: string]:any} = {
+const components = {
     burger: BurgerIcon,
     list: ListIcon,
     profile: ProfileIcon,
 };
-function HeaderButton(props: ButtonProps) {
+function HeaderButton(props) {
     const SpecificIcon = components[props.type];
 
     return(
@@ -22,7 +17,13 @@ function HeaderButton(props: ButtonProps) {
             <p className={`${!props.active && "text_color_inactive"} ml-2 text text_type_main-default`}>{props.text}</p>
         </div>
     )
-}
+};
+
+HeaderButton.propTypes = {
+    active: PropTypes.bool,
+    text: PropTypes.string,
+    type: PropTypes.string,
+};
 
 export default HeaderButton;
 

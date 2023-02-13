@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./BurgerConstructorListItem.module.css";
 import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
+import PropTypes from "prop-types";
 
 function BurgerConstructorListItem({text, price, thumbnail}) {
     return (
@@ -13,6 +14,12 @@ function BurgerConstructorListItem({text, price, thumbnail}) {
             />
         </li>
     )
+};
+
+BurgerConstructorListItem.propTypes = {
+    text: PropTypes.string,
+    price: PropTypes.number,
+    thumbnail: PropTypes.string,
 }
 
 export default BurgerConstructorListItem;

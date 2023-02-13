@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from "./App.module.css";
-import {serverUrl} from "../../constants";
+import {serverUrl} from "../../utils/constants";
 import AppHeader from "../AppHeader/AppHeader";
 import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
 import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
