@@ -24,6 +24,7 @@
 
 .stuffing {
     height: 464px;
+    width: 585px;
     overflow-y: scroll;
     display: flex;
     flex-direction: column;

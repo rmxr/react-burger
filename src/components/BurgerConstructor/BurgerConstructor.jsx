@@ -8,8 +8,9 @@ import PropTypes from "prop-types";
 import {v4 as uuidv4} from 'uuid';
 import LargeIcon from "../../images/LargeIcon.svg";
 import {ingredientsPropType} from "../../utils/constants";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {useDrop} from "react-dnd";
+import {ADD_INGREDIENT_TO_CONSTRUCTOR} from "../../services/actions/BurgerConstructor";
 
 
 function BurgerConstructor({props}) {
@@ -18,11 +19,16 @@ function BurgerConstructor({props}) {
   const closeModal = () => setModal(false);
 
   const {bun, stuffing} = useSelector(state => state.burgerConstructor);
+  const dispatch = useDispatch();
 
   const [{isHover}, dropTarget] = useDrop({
     accept: "ingredient",
     drop(itemID) {
       console.log(itemID);
+      dispatch({
+        type: ADD_INGREDIENT_TO_CONSTRUCTOR,
+        item: itemID,
+      })
     },
     collect: monitor => ({isHover: monitor.isOver(),})
   });

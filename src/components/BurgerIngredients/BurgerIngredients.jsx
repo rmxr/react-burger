@@ -5,7 +5,7 @@ import Ingredient from "../Ingredient/Ingredient";
 import PropTypes from "prop-types";
 import {ingredientsPropType} from "../../utils/constants";
 import {useDispatch, useSelector} from "react-redux";
-import {getIngredients} from "../../services/actions";
+import {getIngredients} from "../../services/actions/BurgerIngredients";
 
 
 function BurgerIngredients() {
