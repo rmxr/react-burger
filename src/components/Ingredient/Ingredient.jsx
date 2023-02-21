@@ -6,12 +6,16 @@ import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import PropTypes from "prop-types";
 import {ingredientsPropType} from "../../utils/constants";
 import {useDrag} from "react-dnd";
+import {useSelector} from "react-redux";
 
 
 function Ingredient({name, price, image, info, id}) {
   const [modal, setModal] = React.useState(false);
   const openModal = () => setModal(true);
   const closeModal = () => setModal(false);
+
+  const {bun, stuffing} = useSelector(state => state.burgerConstructor);
+  const count = [bun, ...stuffing].filter(item => item._id === id).length;
 
   const [{isDrag}, dragRef] = useDrag({
     type: "ingredient",
@@ -23,8 +27,8 @@ function Ingredient({name, price, image, info, id}) {
 
   return (
     <>
-      <div ref={dragRef} onClick={openModal} className={styles.container} style={isDrag ? {opacity: ".2"} : {}}>
-        <Counter count={1} size="default" extraClass="m-1"/>
+      <div ref={dragRef} onClick={openModal} className={styles.container} style={isDrag ? {opacity: ".1"} : {}}>
+        {count > 0 && <Counter count={count} size="default" extraClass="m-1"/>}
         <img src={image}/>
         <div className={`${styles.priceElement} mt-1 mb-1`}>
           <p className="text text_type_digits-default mr-2">{price}</p>
