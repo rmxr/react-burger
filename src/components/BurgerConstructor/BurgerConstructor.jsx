@@ -24,7 +24,6 @@ function BurgerConstructor({props}) {
   const [{isHover}, dropTarget] = useDrop({
     accept: "ingredient",
     drop(itemID) {
-      console.log(itemID);
       dispatch({
         type: ADD_INGREDIENT_TO_CONSTRUCTOR,
         item: itemID,
@@ -32,7 +31,6 @@ function BurgerConstructor({props}) {
     },
     collect: monitor => ({isHover: monitor.isOver(),})
   });
-
 
   return (
     <section className={`${styles.container} pt-25`}>
@@ -49,7 +47,8 @@ function BurgerConstructor({props}) {
           />
         </div>
         <ul className={styles.stuffing}>
-          {stuffing.map((item) => <BurgerConstructorListItem key={uuidv4()} text={item.name} price={item.price}
+          {stuffing.map((item) => <BurgerConstructorListItem constructorIndex={item.constructorIndex} key={uuidv4()}
+                                                             text={item.name} price={item.price}
                                                              thumbnail={item.image}/>)}
         </ul>
         <div className={styles.bun}>
@@ -65,7 +64,8 @@ function BurgerConstructor({props}) {
       </div>
       <div className={`${styles.priceAndOrder} mt-10 mr-4`}>
         <div className={`${styles.price} mr-10`}>
-          <p className="text text_type_digits-medium mr-2">610</p>
+          <p
+            className="text text_type_digits-medium mr-2">{bun.price * 2 + stuffing.reduce((acc, curr) => acc + curr.price, 0)}</p>
           <img alt="Космобаксы" src={LargeIcon}></img>
         </div>
         <Button onClick={openModal} htmlType="button" type="primary" size="medium">
@@ -84,3 +84,4 @@ BurgerConstructor.propTypes = {
 };
 
 export default BurgerConstructor;
+
