@@ -19,6 +19,7 @@
 }
 
 .scroll {
+    position: relative;
     height: 656px;
     overflow: scroll;
     overflow-x: hidden;

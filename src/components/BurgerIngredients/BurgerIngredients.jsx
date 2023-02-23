@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo} from "react";
+import React, {useEffect, useMemo, useRef} from "react";
 import styles from "./BurgerIngredients.module.css";
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import Ingredient from "../Ingredient/Ingredient";
@@ -6,10 +6,13 @@ import PropTypes from "prop-types";
 import {ingredientsPropType} from "../../utils/constants";
 import {useDispatch, useSelector} from "react-redux";
 import {getIngredients} from "../../services/actions/BurgerIngredients";
+import {useInView} from "react-intersection-observer";
 
 
 function BurgerIngredients() {
   const [current, setCurrent] = React.useState('one');
+  const [saucesPreviousY, setSaucesPreviousY] = React.useState(0);
+  const [mainsPreviousY, setMainsPreviousY] = React.useState(0);
 
   const {ingredientsRequest, ingredientsFailed, ingredients} = useSelector(state => state.ingredients);
   const dispatch = useDispatch();
@@ -24,11 +27,44 @@ function BurgerIngredients() {
       "main": []
     }
     ingredients && ingredients.forEach((el) => {
-      result[el.type].push(<Ingredient info={el} key={el._id} name={el.name} price={el.price} image={el.image}
-                                       id={el._id}/>)
+      result[el.type].push(<Ingredient element={el} key={el._id}/>)
     })
     return result
   }, [ingredients])
+
+  const scrollContainerRef = useRef();
+
+  const [saucesRef, inView, entry] = useInView({
+    threshold: 0,
+    root: scrollContainerRef.current,
+    onChange: () => {
+      if (entry && entry.target.getBoundingClientRect().top - scrollContainerRef.current.getBoundingClientRect().top < 30) {
+        const currentY = entry.boundingClientRect.y;
+        if (currentY > saucesPreviousY) {
+          setCurrent('two')
+        } else {
+          setCurrent('one')
+        }
+        setSaucesPreviousY(currentY);
+      }
+    }
+  });
+
+  const [mainsRef, mainsInView, mainsEntry] = useInView({
+    threshold: 0,
+    root: scrollContainerRef.current,
+    onChange: () => {
+      if (entry && mainsEntry.target.getBoundingClientRect().top - scrollContainerRef.current.getBoundingClientRect().top < 30) {
+        const currentY = mainsEntry.boundingClientRect.y;
+        if (currentY > mainsPreviousY) {
+          setCurrent('three')
+        } else {
+          setCurrent('two')
+        }
+        setMainsPreviousY(currentY);
+      }
+    }
+  });
 
 
   return <section className={styles.container}>
@@ -45,7 +81,7 @@ function BurgerIngredients() {
         Начинки
       </Tab>
     </div>
-    <section className={`${styles.scroll} mt-10`}>
+    <section ref={scrollContainerRef} className={`${styles.scroll} mt-10`}>
       {ingredientsFailed
         ? (<p className="text text_type_main-small">Ошибка в получении данных</p>)
         : ingredientsRequest
@@ -59,13 +95,13 @@ function BurgerIngredients() {
               </ul>
             </li>
             <li>
-              <h3 className="text text_type_main-medium">Соусы</h3>
+              <h3 ref={saucesRef} className="text text_type_main-medium">Соусы</h3>
               <ul className={styles.ingredients}>
                 {sauces}
               </ul>
             </li>
             <li>
-              <h3 className="text text_type_main-medium">Начинки</h3>
+              <h3 ref={mainsRef} className="text text_type_main-medium">Начинки</h3>
               <ul className={styles.ingredients}>
                 {mains}
               </ul>
@@ -78,9 +114,9 @@ function BurgerIngredients() {
 
 };
 
-BurgerIngredients.propTypes = {
-  ingredients: PropTypes.arrayOf(ingredientsPropType)
-};
+// BurgerIngredients.propTypes = {
+//   ingredients: PropTypes.arrayOf(ingredientsPropType)
+// };
 
 export default BurgerIngredients;
 

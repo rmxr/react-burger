@@ -11,7 +11,7 @@ export function getIngredients() {
     dispatch({
       type: GET_INGREDIENTS
     })
-    fetch(serverUrl).then(res => res.json()).then(res => {
+    fetch(serverUrl + "ingredients").then(res => res.json()).then(res => {
       if (res && res.success) {
         dispatch({
           type: GET_INGREDIENTS_SUCCESS,

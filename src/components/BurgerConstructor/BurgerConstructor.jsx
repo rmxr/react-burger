@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useCallback} from "react";
 import styles from "./BurgerConstructor.module.css";
 import {Button, ConstructorElement} from "@ya.praktikum/react-developer-burger-ui-components";
 import BurgerConstructorListItem from "../BurgerConstructorListItem/BurgerConstructorListItem";
@@ -10,16 +10,50 @@ import LargeIcon from "../../images/LargeIcon.svg";
 import {ingredientsPropType} from "../../utils/constants";
 import {useDispatch, useSelector} from "react-redux";
 import {useDrop} from "react-dnd";
-import {ADD_INGREDIENT_TO_CONSTRUCTOR} from "../../services/actions/BurgerConstructor";
+import {ADD_INGREDIENT_TO_CONSTRUCTOR, REARRANGE_CONSTRUCTOR} from "../../services/actions/BurgerConstructor";
+import {postOrder} from "../../services/actions/OrderDetails";
 
 
 function BurgerConstructor() {
+  const {bun, stuffing} = useSelector(state => state.burgerConstructor);
+  const {orderRequest, orderFailed, order} = useSelector(state => state.order)
   const [modal, setModal] = React.useState(false);
-  const openModal = () => setModal(true);
+  const openModal = () => {
+    if (!orderRequest) {
+      dispatch(postOrder([bun._id, ...stuffing.map(item => item._id)]))
+    }
+    setModal(true)
+  };
   const closeModal = () => setModal(false);
   const dispatch = useDispatch();
 
-  const {bun, stuffing} = useSelector(state => state.burgerConstructor);
+
+  // DnD Sorting
+  const findCard = useCallback(
+    (constructorIndex) => {
+      const stuffingItem = stuffing.filter((c) => `${c.constructorIndex}` === constructorIndex)[0];
+      return {
+        stuffingItem,
+        index: stuffing.indexOf(stuffingItem),
+      }
+    },
+    [stuffing],
+  )
+  const moveCard = useCallback(
+    (constructorIndex, atIndex, key) => {
+      const {stuffingItem, index} = findCard(constructorIndex)
+      dispatch({
+        type: REARRANGE_CONSTRUCTOR,
+        index: index,
+        atIndex: atIndex,
+        stuffingItem: stuffingItem,
+        key: key,
+      })
+    },
+    [findCard, stuffing],
+  )
+  const [, sortingDrop] = useDrop(() => ({accept: "sortingItem"}))
+  // DnD Sorting.end
 
 
   const [{isHover}, dropTarget] = useDrop({
@@ -32,6 +66,7 @@ function BurgerConstructor() {
     },
     collect: monitor => ({isHover: monitor.isOver(),})
   });
+
 
   return (
     <section className={`${styles.container} pt-25`}>
@@ -47,9 +82,11 @@ function BurgerConstructor() {
             thumbnail={bun.image}
           />}
         </div>
-        <ul className={styles.stuffing}>
-          {stuffing.map((item) => <BurgerConstructorListItem constructorIndex={item.constructorIndex} key={uuidv4()}
-                                                             text={item.name} price={item.price}
+        <ul ref={sortingDrop} className={styles.stuffing}>
+          {stuffing.map((item) => <BurgerConstructorListItem constructorIndex={item.constructorIndex}
+                                                             key={item.constructorIndex}
+                                                             text={item.name} price={item.price} moveCard={moveCard}
+                                                             findCard={findCard}
                                                              thumbnail={item.image}/>)}
         </ul>
         <div className={styles.bun}>
@@ -80,9 +117,9 @@ function BurgerConstructor() {
   )
 };
 
-BurgerConstructor.propTypes = {
-  props: PropTypes.arrayOf(ingredientsPropType)
-};
+// BurgerConstructor.propTypes = {
+//   props: PropTypes.arrayOf(ingredientsPropType)
+// };
 
 export default BurgerConstructor;
 

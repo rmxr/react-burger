@@ -20,6 +20,7 @@ export const burgerIngredientsReducer = (state = initialState, action) => {
         ...state,
         ingredients: action.ingredients,
         ingredientsRequest: false,
+        ingredientsFailed: false,
       }
     }
     case GET_INGREDIENTS_FAILED: {
