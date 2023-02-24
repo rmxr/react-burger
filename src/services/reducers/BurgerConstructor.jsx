@@ -1,9 +1,8 @@
 import {
-  ADD_INGREDIENT_TO_CONSTRUCTOR,
+  ADD_INGREDIENT_TO_CONSTRUCTOR, CLEAR_CONSTRUCTOR,
   REARRANGE_CONSTRUCTOR,
   REMOVE_INGREDIENT_FROM_CONSTRUCTOR
 } from "../actions/BurgerConstructor";
-import {v4} from "uuid";
 
 const initialState = {
   bun: {},
@@ -16,7 +15,7 @@ export const burgerConstructorReducer = (state = initialState, action) => {
       if (action.item.type === "bun") {
         return {...state, bun: action.item}
       } else {
-        return {...state, stuffing: [...state.stuffing, {...action.item, constructorIndex: v4()}]}
+        return {...state, stuffing: [...state.stuffing, {...action.item, constructorIndex: action.constructorIndex}]}
       }
     }
     case REMOVE_INGREDIENT_FROM_CONSTRUCTOR: {
@@ -31,6 +30,9 @@ export const burgerConstructorReducer = (state = initialState, action) => {
         ...state,
         stuffing: stuffingCopy,
       }
+    }
+    case CLEAR_CONSTRUCTOR: {
+      return initialState;
     }
     default: {
       return state;

@@ -18,6 +18,10 @@
     margin-left: 16px;
 }
 
+.tabsContainer {
+    display: flex;
+}
+
 .scroll {
     position: relative;
     height: 656px;

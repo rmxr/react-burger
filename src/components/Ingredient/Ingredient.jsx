@@ -45,7 +45,7 @@ function Ingredient({element}) {
     <>
       <div ref={dragRef} onClick={openModal} className={styles.container} style={isDrag ? {opacity: ".1"} : {}}>
         {count > 0 && <Counter count={count} size="default" extraClass="m-1"/>}
-        <img src={element.image}/>
+        <img src={element.image} alt={element.name}/>
         <div className={`${styles.priceElement} mt-1 mb-1`}>
           <p className="text text_type_digits-default mr-2">{element.price}</p>
           <CurrencyIcon type="primary"/>

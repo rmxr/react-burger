@@ -8,7 +8,7 @@ function IngredientDetails() {
   return (
     <div className={styles.container}>
       <p className={styles.text + " text text_type_main-large mt-10 ml-10 mr-10"}>Детали ингредиента</p>
-      <img src={info.image_large}/>
+      <img src={info.image_large} alt={info.name}/>
       <p className={styles.name + " text text_type_main-medium mt-4"}>{info.name}</p>
       <div className={styles.infoBlock}>
         <div>

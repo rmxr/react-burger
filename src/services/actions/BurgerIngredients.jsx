@@ -11,16 +11,18 @@ export function getIngredients() {
     dispatch({
       type: GET_INGREDIENTS
     })
-    fetch(serverUrl + "ingredients").then(res => res.json()).then(res => {
+    fetch(serverUrl + "ingredients").then(res => {
+      if (res.ok) {
+        return res.json()
+      } else {
+        return Promise.reject(`Ошибка ${res.status}`);
+      }
+    }).then(res => {
       if (res && res.success) {
         dispatch({
           type: GET_INGREDIENTS_SUCCESS,
           ingredients: res.data,
         });
-        dispatch({
-          type: ADD_INGREDIENT_TO_CONSTRUCTOR,
-          item: res.data[0]
-        })
       } else {
         dispatch({
           type: GET_INGREDIENTS_FAILED

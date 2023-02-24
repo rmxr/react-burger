@@ -70,11 +70,12 @@ function BurgerIngredients() {
   return <section className={styles.container}>
 
     <h2 className="text text_type_main-large mt-10">Соберите бургер</h2>
-    <div className="mt-5" style={{display: 'flex'}}>
+    <div className={`${styles.tabsContainer} mt-5`}>
       <Tab value="one" active={current === 'one'} onClick={setCurrent}>
         Булки
       </Tab>
-      <Tab value="two" active={current === 'two'} onClick={setCurrent}>
+      <Tab value="two" active={current === 'two'}
+           onClick={setCurrent}>
         Соусы
       </Tab>
       <Tab value="three" active={current === 'three'} onClick={setCurrent}>

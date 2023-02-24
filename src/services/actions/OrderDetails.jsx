@@ -1,5 +1,6 @@
 import {serverUrl} from "../../utils/constants";
 import {GET_INGREDIENTS_FAILED} from "./BurgerIngredients";
+import {CLEAR_CONSTRUCTOR} from "./BurgerConstructor";
 
 export const POST_ORDER = 'POST_ORDER';
 export const POST_ORDER_SUCCESS = "POST_ORDER_SUCCESS";
@@ -19,11 +20,20 @@ export function postOrder(ingredients) {
       body: JSON.stringify({
         ingredients: ingredients
       })
-    }).then(res => res.json()).then(res => {
+    }).then(res => {
+      if (res.ok) {
+        return res.json()
+      } else {
+        return Promise.reject(`Ошибка ${res.status}`);
+      }
+    }).then(res => {
       if (res && res.success) {
         dispatch({
           type: POST_ORDER_SUCCESS,
           order: {name: res.name, number: res.order.number},
+        })
+        dispatch({
+          type: CLEAR_CONSTRUCTOR
         })
       } else {
         dispatch({
@@ -32,7 +42,7 @@ export function postOrder(ingredients) {
       }
     }).catch((err => {
       dispatch({
-        type: GET_INGREDIENTS_FAILED
+        type: POST_ORDER_FAILED
       })
     }))
   }
