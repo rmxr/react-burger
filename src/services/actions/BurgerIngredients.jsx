@@ -1,5 +1,4 @@
-import {serverUrl} from "../../utils/constants";
-import {ADD_INGREDIENT_TO_CONSTRUCTOR} from "./BurgerConstructor";
+import {makeRequest} from "../../utils/constants";
 
 export const GET_INGREDIENTS = 'GET_INGREDIENTS';
 export const GET_INGREDIENTS_SUCCESS = "GET_INGREDIENTS_SUCCESS";
@@ -10,28 +9,19 @@ export function getIngredients() {
   return function (dispatch) {
     dispatch({
       type: GET_INGREDIENTS
-    })
-    fetch(serverUrl + "ingredients").then(res => {
-      if (res.ok) {
-        return res.json()
-      } else {
-        return Promise.reject(`Ошибка ${res.status}`);
-      }
-    }).then(res => {
-      if (res && res.success) {
+    });
+    makeRequest('ingredients').then(res => {
         dispatch({
           type: GET_INGREDIENTS_SUCCESS,
           ingredients: res.data,
-        });
-      } else {
+        })
+      }
+    )
+      .catch(err => {
+        console.error(err);
         dispatch({
           type: GET_INGREDIENTS_FAILED
         })
-      }
-    }).catch(err => {
-      dispatch({
-        type: GET_INGREDIENTS_FAILED
       })
-    })
   }
 }

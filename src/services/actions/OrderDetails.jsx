@@ -1,5 +1,4 @@
-import {serverUrl} from "../../utils/constants";
-import {GET_INGREDIENTS_FAILED} from "./BurgerIngredients";
+import {makeRequest} from "../../utils/constants";
 import {CLEAR_CONSTRUCTOR} from "./BurgerConstructor";
 
 export const POST_ORDER = 'POST_ORDER';
@@ -10,8 +9,8 @@ export function postOrder(ingredients) {
   return function (dispatch) {
     dispatch({
       type: POST_ORDER
-    })
-    fetch(`${serverUrl}orders`, {
+    });
+    makeRequest('orders', {
       method: 'POST',
       headers: {
         "Content-Type": "application/json",
@@ -21,29 +20,19 @@ export function postOrder(ingredients) {
         ingredients: ingredients
       })
     }).then(res => {
-      if (res.ok) {
-        return res.json()
-      } else {
-        return Promise.reject(`Ошибка ${res.status}`);
-      }
-    }).then(res => {
-      if (res && res.success) {
-        dispatch({
-          type: POST_ORDER_SUCCESS,
-          order: {name: res.name, number: res.order.number},
-        })
-        dispatch({
-          type: CLEAR_CONSTRUCTOR
-        })
-      } else {
+      dispatch({
+        type: POST_ORDER_SUCCESS,
+        order: {name: res.name, number: res.order.number},
+      })
+      dispatch({
+        type: CLEAR_CONSTRUCTOR
+      })
+    })
+      .catch((err => {
+        console.error(err);
         dispatch({
           type: POST_ORDER_FAILED
         })
-      }
-    }).catch((err => {
-      dispatch({
-        type: POST_ORDER_FAILED
-      })
-    }))
+      }))
   }
 }

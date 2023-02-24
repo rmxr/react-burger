@@ -1,34 +1,13 @@
 import React from "react";
 import styles from "./Ingredient.module.css";
 import {Counter, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import Modal from "../Modal/Modal";
-import IngredientDetails from "../IngredientDetails/IngredientDetails";
-import PropTypes from "prop-types";
 import {ingredientsPropType} from "../../utils/constants";
 import {useDrag} from "react-dnd";
-import {useDispatch, useSelector} from "react-redux";
-import {
-  REMOVE_INGREDIENT_DETAILS_ELEMENT,
-  SET_INGREDIENT_DETAILS_ELEMENT
-} from "../../services/actions/IngredientDetails";
+import {useSelector} from "react-redux";
+import PropTypes from "prop-types";
 
 
-function Ingredient({element}) {
-  const [modal, setModal] = React.useState(false);
-  const dispatch = useDispatch();
-  const openModal = () => {
-    dispatch({
-      type: SET_INGREDIENT_DETAILS_ELEMENT,
-      element: element,
-    })
-    setModal(true)
-  };
-  const closeModal = () => {
-    dispatch({
-      type: REMOVE_INGREDIENT_DETAILS_ELEMENT
-    })
-    setModal(false)
-  };
+function Ingredient({element, openModal}) {
 
   const {bun, stuffing} = useSelector(state => state.burgerConstructor);
   const count = [bun, ...stuffing].filter(item => item._id === element._id).length;
@@ -42,25 +21,22 @@ function Ingredient({element}) {
   });
 
   return (
-    <>
-      <div ref={dragRef} onClick={openModal} className={styles.container} style={isDrag ? {opacity: ".1"} : {}}>
-        {count > 0 && <Counter count={count} size="default" extraClass="m-1"/>}
-        <img src={element.image} alt={element.name}/>
-        <div className={`${styles.priceElement} mt-1 mb-1`}>
-          <p className="text text_type_digits-default mr-2">{element.price}</p>
-          <CurrencyIcon type="primary"/>
-        </div>
-        <div className={`${styles.text} text text_type_main-default`}>{element.name}</div>
+    <div ref={dragRef} onClick={() => openModal(element)} className={styles.container}
+         style={isDrag ? {opacity: ".1"} : {}}>
+      {count > 0 && <Counter count={count} size="default" extraClass="m-1"/>}
+      <img src={element.image} alt={element.name}/>
+      <div className={`${styles.priceElement} mt-1 mb-1`}>
+        <p className="text text_type_digits-default mr-2">{element.price}</p>
+        <CurrencyIcon type="primary"/>
       </div>
-      {modal && <Modal onClose={closeModal}>
-        <IngredientDetails/>
-      </Modal>}
-    </>
+      <div className={`${styles.text} text text_type_main-default`}>{element.name}</div>
+    </div>
   )
 };
 
 Ingredient.propTypes = {
   element: ingredientsPropType,
+  openModal: PropTypes.func,
 }
 
 export default Ingredient;
