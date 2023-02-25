@@ -53,9 +53,16 @@ function BurgerIngredients() {
 
   const scrollContainerRef = useRef();
 
+  function scrollToIndex(index) {
+    const listNode = scrollContainerRef.current;
+    const partNode = listNode.querySelectorAll('li > h3')[index];
+    listNode.scroll({top: partNode.offsetTop, behavior: "smooth"});
+  }
+
   const [saucesRef, , entry] = useInView({
     threshold: 0,
     root: scrollContainerRef.current,
+    rootMargin: '-50px 0px 0px 0px',
     onChange: () => {
       if (entry && entry.target.getBoundingClientRect().top - scrollContainerRef.current.getBoundingClientRect().top < 30) {
         const currentY = entry.boundingClientRect.y;
@@ -72,6 +79,7 @@ function BurgerIngredients() {
   const [mainsRef, , mainsEntry] = useInView({
     threshold: 0,
     root: scrollContainerRef.current,
+    rootMargin: '-50px 0px 0px 0px',
     onChange: () => {
       if (entry && mainsEntry.target.getBoundingClientRect().top - scrollContainerRef.current.getBoundingClientRect().top < 30) {
         const currentY = mainsEntry.boundingClientRect.y;
@@ -91,14 +99,14 @@ function BurgerIngredients() {
 
       <h2 className="text text_type_main-large mt-10">Соберите бургер</h2>
       <div className={`${styles.tabsContainer} mt-5`}>
-        <Tab value="one" active={current === 'one'} onClick={setCurrent}>
+        <Tab value="one" active={current === 'one'} onClick={() => scrollToIndex(0)}>
           Булки
         </Tab>
         <Tab value="two" active={current === 'two'}
-             onClick={setCurrent}>
+             onClick={() => scrollToIndex(1)}>
           Соусы
         </Tab>
-        <Tab value="three" active={current === 'three'} onClick={setCurrent}>
+        <Tab value="three" active={current === 'three'} onClick={() => scrollToIndex(2)}>
           Начинки
         </Tab>
       </div>
