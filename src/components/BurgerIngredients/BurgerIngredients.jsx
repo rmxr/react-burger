@@ -15,8 +15,8 @@ import {
 
 function BurgerIngredients() {
   const [current, setCurrent] = React.useState('one');
-  const [saucesPreviousY, setSaucesPreviousY] = React.useState(0);
-  const [mainsPreviousY, setMainsPreviousY] = React.useState(0);
+  // const [saucesPreviousY, setSaucesPreviousY] = React.useState(0);
+  // const [mainsPreviousY, setMainsPreviousY] = React.useState(0);
   const [modal, setModal] = React.useState(false);
   const openModal = (element) => {
     dispatch({
@@ -59,41 +59,41 @@ function BurgerIngredients() {
     listNode.scroll({top: partNode.offsetTop, behavior: "smooth"});
   }
 
-  const [saucesRef, , entry] = useInView({
+  const [bunsRef, bunsInView,] = useInView({
     threshold: 0,
-    root: scrollContainerRef.current,
+    initialInView: true,
     rootMargin: '-50px 0px 0px 0px',
-    onChange: () => {
-      if (entry && entry.target.getBoundingClientRect().top - scrollContainerRef.current.getBoundingClientRect().top < 30) {
-        const currentY = entry.boundingClientRect.y;
-        if (currentY > saucesPreviousY) {
-          setCurrent('two')
-        } else {
-          setCurrent('one')
-        }
-        setSaucesPreviousY(currentY);
-      }
-    }
+    root: scrollContainerRef.current,
+    trackVisibility: true,
+    delay: 100,
   });
 
-  const [mainsRef, , mainsEntry] = useInView({
+  const [saucesRef, saucesInView,] = useInView({
     threshold: 0,
-    root: scrollContainerRef.current,
     rootMargin: '-50px 0px 0px 0px',
-    onChange: () => {
-      if (entry && mainsEntry.target.getBoundingClientRect().top - scrollContainerRef.current.getBoundingClientRect().top < 30) {
-        const currentY = mainsEntry.boundingClientRect.y;
-        if (currentY > mainsPreviousY) {
-          setCurrent('three')
-        } else {
-          setCurrent('two')
-        }
-        setMainsPreviousY(currentY);
-      }
-    }
+    root: scrollContainerRef.current,
+    trackVisibility: true,
+    delay: 100,
   });
 
+  const [mainsRef, mainsInView,] = useInView({
+    threshold: 0,
+    rootMargin: '-50px 0px 0px 0px',
+    root: scrollContainerRef.current,
+    trackVisibility: true,
+    delay: 100,
+  });
 
+  useEffect(() => {
+    if (bunsInView) {
+      setCurrent('one')
+    } else if (saucesInView) {
+      setCurrent('two')
+    } else {
+      setCurrent('three')
+    }
+  }, [bunsInView, saucesInView, mainsInView])
+  
   return <>
     <section className={styles.container}>
 
@@ -117,20 +117,20 @@ function BurgerIngredients() {
             ? (<p className="text text_type_main-small">Загрузка...</p>)
             :
             (<ul className={styles.list}>
-              <li>
+              <li ref={bunsRef}>
                 <h3 className="text text_type_main-medium">Булки</h3>
                 <ul className={styles.ingredients}>
                   {buns}
                 </ul>
               </li>
-              <li>
-                <h3 ref={saucesRef} className="text text_type_main-medium">Соусы</h3>
+              <li ref={saucesRef}>
+                <h3 className="text text_type_main-medium">Соусы</h3>
                 <ul className={styles.ingredients}>
                   {sauces}
                 </ul>
               </li>
-              <li>
-                <h3 ref={mainsRef} className="text text_type_main-medium">Начинки</h3>
+              <li ref={mainsRef}>
+                <h3 className="text text_type_main-medium">Начинки</h3>
                 <ul className={styles.ingredients}>
                   {mains}
                 </ul>
