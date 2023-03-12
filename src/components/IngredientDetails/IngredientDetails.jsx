@@ -1,10 +1,9 @@
 import React from "react";
 import styles from "./IngredientDetails.module.css";
-import {ingredientsPropType} from "../../utils/constants";
 import {useSelector} from "react-redux";
 
 function IngredientDetails() {
-  const info = useSelector(state => state.ingredientDetails)
+  const {ingredients: info} = useSelector(state => state.ingredients);
   return (
     <div className={styles.container}>
       <p className={styles.text + " text text_type_main-large mt-10 ml-10 mr-10"}>Детали ингредиента</p>

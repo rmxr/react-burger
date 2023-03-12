@@ -1,0 +1,14 @@
+.main {
+    margin: 0 auto 0;
+    display: grid;
+    width: 1240px;
+    grid-template-columns: repeat(2, max-content);
+    justify-items: center;
+    gap: 40px;
+}
+
+.section {
+    width: 600px;
+    height: 800px;
+    background-color: mediumseagreen;
+}

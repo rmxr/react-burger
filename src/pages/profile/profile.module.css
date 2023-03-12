@@ -1,0 +1,60 @@
+.main {
+    margin: 0 auto 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 320px 480px 320px;
+    column-gap: 60px;
+    margin-top: 120px;
+}
+
+.transparent {
+    opacity: .4;
+}
+
+.navbar {
+    display: flex;
+    flex-direction: column;
+}
+
+.buttonsBlock {
+    display: flex;
+    margin: 0;
+    justify-content: flex-end;
+}
+
+.cancel {
+    margin-right: -11px;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 180px;
+}
+
+.header {
+    text-align: center;
+}
+
+.alreadyRegistered {
+    text-align: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+form > * {
+    margin: 0 auto 24px;
+}
+
+

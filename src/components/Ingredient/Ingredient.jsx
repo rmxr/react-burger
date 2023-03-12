@@ -21,7 +21,7 @@ function Ingredient({element, openModal}) {
   });
 
   return (
-    <div ref={dragRef} onClick={() => openModal(element)} className={styles.container}
+    <div ref={dragRef} onClick={() => openModal(element._id)} className={styles.container}
          style={isDrag ? {opacity: ".1"} : {}}>
       {count > 0 && <Counter count={count} size="default" extraClass="m-1"/>}
       <img src={element.image} alt={element.name}/>
