@@ -10,15 +10,22 @@ import {useDispatch, useSelector} from "react-redux";
 import {useDrop} from "react-dnd";
 import {ADD_INGREDIENT_TO_CONSTRUCTOR, REARRANGE_CONSTRUCTOR} from "../../services/actions/BurgerConstructor";
 import {postOrder} from "../../services/actions/OrderDetails";
+import {getCookie} from "../../utils/constants";
+import {useNavigate} from "react-router-dom";
 
 
 function BurgerConstructor() {
+  const navigate = useNavigate();
   const {bun, stuffing} = useSelector(state => state.burgerConstructor);
+  const {user} = useSelector(state => state.auth);
   const {orderRequest, orderFailed, order} = useSelector(state => state.order)
   const [modal, setModal] = React.useState(false);
   const openModal = () => {
-    if (!orderRequest) {
-      dispatch(postOrder([bun._id, ...stuffing.map(item => item._id)]))
+    if (!orderRequest && user.email) {
+      const authToken = getCookie('token');
+      dispatch(postOrder([bun._id, ...stuffing.map(item => item._id)], authToken))
+    } else {
+      navigate('/login')
     }
     setModal(true)
   };

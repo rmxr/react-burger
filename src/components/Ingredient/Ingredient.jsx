@@ -40,7 +40,6 @@ function Ingredient({element}) {
 
 Ingredient.propTypes = {
   element: ingredientsPropType,
-  openModal: PropTypes.func,
 }
 
 export default Ingredient;

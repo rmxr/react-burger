@@ -5,7 +5,7 @@ export const POST_ORDER = 'POST_ORDER';
 export const POST_ORDER_SUCCESS = "POST_ORDER_SUCCESS";
 export const POST_ORDER_FAILED = "POST_ORDER_FAILED";
 
-export function postOrder(ingredients) {
+export function postOrder(ingredients, authToken) {
   return function (dispatch) {
     dispatch({
       type: POST_ORDER
@@ -14,7 +14,8 @@ export function postOrder(ingredients) {
       method: 'POST',
       headers: {
         "Content-Type": "application/json",
-        Accept: "application/json"
+        Accept: "application/json",
+        Authorization: `Bearer ${authToken}`
       },
       body: JSON.stringify({
         ingredients: ingredients

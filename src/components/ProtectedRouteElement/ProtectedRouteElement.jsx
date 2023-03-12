@@ -1,5 +1,7 @@
 import {Navigate, useLocation} from 'react-router-dom';
 import {useSelector} from "react-redux";
+import PropTypes from "prop-types";
+
 
 export function ProtectedRouteElement({element, anon}) {
   const location = useLocation();
@@ -15,5 +17,10 @@ export function ProtectedRouteElement({element, anon}) {
   }
 
   return element
+}
+
+ProtectedRouteElement.propTypes = {
+  element: PropTypes.element,
+  anon: PropTypes.bool,
 }
 
