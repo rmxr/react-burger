@@ -13,6 +13,7 @@ export const postOrderReducer = (state = initialState, action) => {
         ...state,
         orderRequest: true,
         orderFailed: false,
+        order: {},
       }
     }
     case POST_ORDER_SUCCESS: {

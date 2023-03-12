@@ -4,9 +4,11 @@ import './index.css';
 import App from './components/App/App';
 import reportWebVitals from './reportWebVitals';
 import {Provider} from "react-redux";
-import {compose, createStore, applyMiddleware } from "redux";
+import {compose, createStore, applyMiddleware} from "redux";
 import {rootReducer} from "./services/reducers";
 import thunk from "redux-thunk";
+import {BrowserRouter as Router} from 'react-router-dom';
+
 
 declare global {
   interface Window {
@@ -25,9 +27,11 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
+    <Router>
       <Provider store={store}>
-         <App />
+        <App/>
       </Provider>
+    </Router>
   </React.StrictMode>
 );
 

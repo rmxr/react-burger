@@ -15,8 +15,6 @@ import {
 
 function BurgerIngredients() {
   const [current, setCurrent] = React.useState('one');
-  // const [saucesPreviousY, setSaucesPreviousY] = React.useState(0);
-  // const [mainsPreviousY, setMainsPreviousY] = React.useState(0);
   const [modal, setModal] = React.useState(false);
   const openModal = (element) => {
     dispatch({
@@ -35,9 +33,7 @@ function BurgerIngredients() {
 
   const {ingredientsRequest, ingredientsFailed, ingredients} = useSelector(state => state.ingredients);
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getIngredients())
-  }, [])
+
 
   const {bun: buns, sauce: sauces, main: mains} = useMemo(() => {
     const result = {
@@ -93,7 +89,7 @@ function BurgerIngredients() {
       setCurrent('three')
     }
   }, [bunsInView, saucesInView, mainsInView])
-  
+
   return <>
     <section className={styles.container}>
 

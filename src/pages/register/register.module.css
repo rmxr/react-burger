@@ -1,0 +1,36 @@
+.main {
+    margin: 0 auto 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 180px;
+    width: 480px;
+}
+
+.header {
+    text-align: center;
+}
+
+a {
+    text-decoration: none;
+}
+
+.alreadyRegistered {
+    text-align: center;
+}
+
+.form {
+    margin-top: 24px;
+    margin-bottom: 56px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
