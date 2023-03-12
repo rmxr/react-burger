@@ -5,12 +5,15 @@ import {ingredientsPropType} from "../../utils/constants";
 import {useDrag} from "react-dnd";
 import {useSelector} from "react-redux";
 import PropTypes from "prop-types";
+import {useLocation, useNavigate} from "react-router-dom";
 
 
-function Ingredient({element, openModal}) {
+function Ingredient({element}) {
 
   const {bun, stuffing} = useSelector(state => state.burgerConstructor);
   const count = [bun, ...stuffing].filter(item => item._id === element._id).length;
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const [{isDrag}, dragRef] = useDrag({
     type: "ingredient",
@@ -21,7 +24,8 @@ function Ingredient({element, openModal}) {
   });
 
   return (
-    <div ref={dragRef} onClick={() => openModal(element._id)} className={styles.container}
+    <div ref={dragRef} onClick={() => navigate(`/ingredients/${element._id}`, {state: {background: location}})}
+         className={styles.container}
          style={isDrag ? {opacity: ".1"} : {}}>
       {count > 0 && <Counter count={count} size="default" extraClass="m-1"/>}
       <img src={element.image} alt={element.name}/>
