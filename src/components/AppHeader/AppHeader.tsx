@@ -2,6 +2,7 @@ import React from "react";
 import {Logo} from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./AppHeader.module.css";
 import HeaderButton from "../HeaderButton/HeaderButton";
+import {Link} from "react-router-dom";
 
 function AppHeader() {
   return (
@@ -11,7 +12,7 @@ function AppHeader() {
           <HeaderButton text={"Конструктор"} type={"burger"} href={'/'}/>
           <HeaderButton text={"Лента заказов"} type={"list"} href={'/lenta'}/>
         </div>
-        <Logo/>
+        <Link to={"/"}><Logo/></Link>
         <div className={styles.rightBlock}>
           <HeaderButton text={"Личный кабинет"} type={"profile"} href={'/profile'}/>
         </div>
