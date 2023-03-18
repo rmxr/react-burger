@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {BrowserRouter as Router, Routes, Route, useLocation, useNavigate} from 'react-router-dom';
+import {Routes, Route, useLocation, useNavigate} from 'react-router-dom';
 import Register from "../../pages/register/register";
 import Home from "../../pages/home/Home"
 import Login from "../../pages/login/login";
@@ -9,18 +9,18 @@ import AppHeader from "../AppHeader/AppHeader";
 import Profile from "../../pages/profile/profile";
 import {ProtectedRouteElement} from "../ProtectedRouteElement/ProtectedRouteElement";
 import {accessUserData} from "../../services/actions/Auth";
-import {useDispatch} from "react-redux";
-import {getCookie} from "../../utils/constants";
+import {getCookie} from "../../utils/util";
 import {getIngredients} from "../../services/actions/BurgerIngredients";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import Modal from "../Modal/Modal";
+import {useAppDispatch} from "../../utils/hooks";
 
 
 function App() {
   const location = useLocation();
   const background = location.state && location.state.background;
   const authToken = getCookie('token');
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   useEffect(() => {
     dispatch(getIngredients());
@@ -52,7 +52,7 @@ function App() {
             <Modal onClose={onModalClose}>
               <IngredientDetails/>
             </Modal>}
-          >s
+          >
           </Route>
         </Routes>
       )}

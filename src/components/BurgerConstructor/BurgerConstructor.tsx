@@ -6,36 +6,40 @@ import Modal from "../Modal/Modal";
 import OrderDetails from "../OrderDetails/OrderDetails";
 import {v4 as uuidv4} from 'uuid';
 import LargeIcon from "../../images/LargeIcon.svg";
-import {useDispatch, useSelector} from "react-redux";
 import {useDrop} from "react-dnd";
 import {ADD_INGREDIENT_TO_CONSTRUCTOR, REARRANGE_CONSTRUCTOR} from "../../services/actions/BurgerConstructor";
 import {postOrder} from "../../services/actions/OrderDetails";
-import {getCookie} from "../../utils/constants";
+import {getCookie} from "../../utils/util";
 import {useNavigate} from "react-router-dom";
+import {useAppSelector, useAppDispatch} from "../../utils/hooks";
+import {TIngredient, TStuffing} from "../../utils/types";
 
 
 function BurgerConstructor() {
   const navigate = useNavigate();
-  const {bun, stuffing} = useSelector(state => state.burgerConstructor);
-  const {user} = useSelector(state => state.auth);
-  const {orderRequest, orderFailed, order} = useSelector(state => state.order)
+  const {
+    bun,
+    stuffing
+  }: { bun: TIngredient; stuffing: TStuffing[] } = useAppSelector(state => state.burgerConstructor);
+  const {user} = useAppSelector(state => state.auth);
+  const {orderRequest} = useAppSelector(state => state.order)
   const [modal, setModal] = React.useState(false);
   const openModal = () => {
     if (!orderRequest && user.email) {
       const authToken = getCookie('token');
-      dispatch(postOrder([bun._id, ...stuffing.map(item => item._id)], authToken))
+      dispatch(postOrder([bun._id, ...stuffing.map(item => item._id)], authToken!))
     } else {
       navigate('/login')
     }
     setModal(true)
   };
   const closeModal = () => setModal(false);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
 
   // DnD Sorting
   const findCard = useCallback(
-    (constructorIndex) => {
+    (constructorIndex: string) => {
       const stuffingItem = stuffing.filter((c) => `${c.constructorIndex}` === constructorIndex)[0];
       return {
         stuffingItem,
@@ -44,15 +48,15 @@ function BurgerConstructor() {
     },
     [stuffing],
   )
+
   const moveCard = useCallback(
-    (constructorIndex, atIndex, key) => {
+    (constructorIndex: string, atIndex: number) => {
       const {stuffingItem, index} = findCard(constructorIndex)
       dispatch({
         type: REARRANGE_CONSTRUCTOR,
         index: index,
         atIndex: atIndex,
         stuffingItem: stuffingItem,
-        key: key,
       })
     },
     [findCard, stuffing],
@@ -135,11 +139,7 @@ function BurgerConstructor() {
       </div>
     </section>
   )
-};
-
-// BurgerConstructor.propTypes = {
-//   props: PropTypes.arrayOf(ingredientsPropType)
-// };
+}
 
 export default BurgerConstructor;
 

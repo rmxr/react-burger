@@ -1,16 +1,15 @@
 import React from "react";
 import styles from "./Ingredient.module.css";
 import {Counter, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import {ingredientsPropType} from "../../utils/constants";
 import {useDrag} from "react-dnd";
-import {useSelector} from "react-redux";
-import PropTypes from "prop-types";
 import {useLocation, useNavigate} from "react-router-dom";
+import {useAppSelector} from "../../utils/hooks";
+import {TIngredient, TStuffing} from "../../utils/types";
 
 
-function Ingredient({element}) {
+function Ingredient({element}: { element: TIngredient }) {
 
-  const {bun, stuffing} = useSelector(state => state.burgerConstructor);
+  const {bun, stuffing}: { bun: TIngredient; stuffing: TStuffing[] } = useAppSelector(state => state.burgerConstructor);
   const count = [bun, ...stuffing].filter(item => item._id === element._id).length;
   const navigate = useNavigate();
   const location = useLocation();
@@ -36,10 +35,6 @@ function Ingredient({element}) {
       <div className={`${styles.text} text text_type_main-default`}>{element.name}</div>
     </div>
   )
-};
-
-Ingredient.propTypes = {
-  element: ingredientsPropType,
 }
 
 export default Ingredient;

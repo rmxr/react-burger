@@ -1,4 +1,5 @@
-import {makeRequest} from "../../utils/constants";
+import {makeRequest} from "../../utils/util";
+import {Dispatch} from "redux";
 
 export const GET_INGREDIENTS = 'GET_INGREDIENTS';
 export const GET_INGREDIENTS_SUCCESS = "GET_INGREDIENTS_SUCCESS";
@@ -6,7 +7,7 @@ export const GET_INGREDIENTS_FAILED = "GET_INGREDIENTS_FAILED";
 
 
 export function getIngredients() {
-  return function (dispatch) {
+  return function (dispatch: Dispatch) {
     dispatch({
       type: GET_INGREDIENTS
     });

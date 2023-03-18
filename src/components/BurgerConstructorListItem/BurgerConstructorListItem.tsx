@@ -1,12 +1,19 @@
 import React from "react";
 import styles from "./BurgerConstructorListItem.module.css";
 import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import PropTypes from "prop-types";
 import {useDispatch} from "react-redux";
 import {REMOVE_INGREDIENT_FROM_CONSTRUCTOR} from "../../services/actions/BurgerConstructor";
 import {useDrag, useDrop} from "react-dnd";
+import {TStuffing} from "../../utils/types";
 
-function BurgerConstructorListItem({text, price, thumbnail, constructorIndex, moveCard, findCard}) {
+function BurgerConstructorListItem({text, price, thumbnail, constructorIndex, moveCard, findCard}: {
+  text: string;
+  price: number;
+  thumbnail: string;
+  constructorIndex: string;
+  moveCard: (constructorIndex: string, atIndex: number) => void;
+  findCard: (constructorIndex: string) => { stuffingItem: TStuffing; index: number };
+}) {
   const dispatch = useDispatch();
   const deleteHandler = () => {
     dispatch({
@@ -37,7 +44,7 @@ function BurgerConstructorListItem({text, price, thumbnail, constructorIndex, mo
   const [, drop] = useDrop(
     () => ({
       accept: 'sortingItem',
-      hover({constructorIndex: draggedId}) {
+      hover({constructorIndex: draggedId}: { constructorIndex: string }) {
         if (draggedId !== constructorIndex) {
           const {index: overIndex} = findCard(constructorIndex)
           moveCard(draggedId, overIndex)
@@ -61,15 +68,6 @@ function BurgerConstructorListItem({text, price, thumbnail, constructorIndex, mo
       />
     </li>
   )
-};
-
-BurgerConstructorListItem.propTypes = {
-  text: PropTypes.string,
-  price: PropTypes.number,
-  thumbnail: PropTypes.string,
-  constructorIndex: PropTypes.string,
-  moveCard: PropTypes.func,
-  findCard: PropTypes.func,
 }
 
 export default BurgerConstructorListItem;

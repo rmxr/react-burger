@@ -1,10 +1,10 @@
 import React from "react";
 import styles from "./OrderDetails.module.css";
 import donePic from "../../images/graphics.png";
-import {useSelector} from "react-redux";
+import {useAppSelector} from "../../utils/hooks";
 
 function OrderDetails() {
-  const {order} = useSelector(state => state.order)
+  const {order} = useAppSelector(state => state.order)
 
   return (
     <div className={styles.container}>
@@ -21,6 +21,6 @@ function OrderDetails() {
 
     </div>
   )
-};
+}
 
 export default OrderDetails;

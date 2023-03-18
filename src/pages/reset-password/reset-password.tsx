@@ -1,24 +1,21 @@
-import React, {useEffect, useRef} from 'react';
+import React, {FormEventHandler, useEffect} from 'react';
 import styles from "./reset-password.module.css";
 import {Input, Button} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, useLocation, useNavigate} from "react-router-dom";
-import {makeRequest} from "../../utils/constants";
+import {makeRequest} from "../../utils/util";
 
 function ResetPassword() {
   const [value, setValue] = React.useState({"Password": "", "Code": ""});
-  const [type, setType] = React.useState('password');
+  const [type, setType] = React.useState<'text' | 'email' | 'password'>('password');
   const navigate = useNavigate();
-  const formRef = useRef();
   const location = useLocation();
 
   useEffect(() => {
-    if (location.state === "Allow") {
-      formRef.current.addEventListener('submit', onSubmitClick)
-    } else {
+    if (location.state !== "Allow") {
       navigate("/")
     }
   }, [location.state]);
-  const onSubmitClick = (e) => {
+  const submitHandler: FormEventHandler = (e) => {
     e.preventDefault();
     makeRequest('password-reset/reset', {
       method: 'POST',
@@ -39,7 +36,7 @@ function ResetPassword() {
       <main className={styles.main}>
         <div className={styles.container}>
           <h1 className={styles.header + " text text_type_main-medium"}>Восстановление пароля</h1>
-          <form className={styles.form} ref={formRef}>
+          <form className={styles.form} onSubmit={submitHandler}>
             <Input placeholder={'Введите новый пароль'} value={value.Password} type={type} onIconClick={() => {
               setType(type === 'password' ? 'text' : 'password')
             }}
@@ -50,7 +47,7 @@ function ResetPassword() {
             <Input placeholder={'Введите код из письма'} value={value.Code}
                    onChange={e => setValue({...value, "Code": e.target.value})}>
             </Input>
-            <Button htmlType="submit" type="primary" size="medium" onClick={onSubmitClick}>
+            <Button htmlType="submit" type="primary" size="medium">
               Сохранить
             </Button>
           </form>

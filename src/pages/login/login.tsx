@@ -1,18 +1,18 @@
-import React from 'react';
+import React, {FormEventHandler} from 'react';
 import styles from "./login.module.css";
 import {Input, Button} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link} from "react-router-dom";
-import {useDispatch} from "react-redux";
 import {login} from "../../services/actions/Auth";
+import {useAppDispatch} from "../../utils/hooks";
 
 
 function Login() {
   const [value, setValue] = React.useState({"E-mail": "", "Password": ""});
-  const [type, setType] = React.useState('password');
-  const dispatch = useDispatch();
+  const [type, setType] = React.useState<"password" | "text" | "email">('password');
+  const dispatch = useAppDispatch();
 
 
-  const onSubmitClick = (e) => {
+  const submitHandler: FormEventHandler = (e) => {
     e.preventDefault();
     dispatch(login(value["E-mail"], value.Password));
   };
@@ -23,7 +23,7 @@ function Login() {
       <main className={styles.main}>
         <div className={styles.container}>
           <h1 className={styles.header + " text text_type_main-medium"}>Вход</h1>
-          <form className={styles.form}>
+          <form onSubmit={submitHandler} className={styles.form}>
             <Input placeholder={'E-mail'} value={value["E-mail"]}
                    onChange={e => setValue({...value, "E-mail": e.target.value})}>
             </Input>
@@ -33,7 +33,7 @@ function Login() {
                    onChange={e => setValue({...value, "Password": e.target.value})}
                    icon={type === 'password' ? 'ShowIcon' : "HideIcon"}>
             </Input>
-            <Button htmlType="submit" type="primary" size="medium" onClick={onSubmitClick}>
+            <Button htmlType="submit" type="primary" size="medium">
               Войти
             </Button>
           </form>

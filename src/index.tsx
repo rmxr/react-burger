@@ -4,23 +4,33 @@ import './index.css';
 import App from './components/App/App';
 import reportWebVitals from './reportWebVitals';
 import {Provider} from "react-redux";
-import {compose, createStore, applyMiddleware} from "redux";
+import {compose} from "redux";
 import {rootReducer} from "./services/reducers";
 import thunk from "redux-thunk";
 import {BrowserRouter as Router} from 'react-router-dom';
+import {configureStore} from "@reduxjs/toolkit";
 
 
-declare global {
-  interface Window {
-    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
-  }
-}
+// declare global {
+//   interface Window {
+//     __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
+//   }
+// }
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+// const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+//
+// const enhancer = composeEnhancers();
 
-const enhancer = composeEnhancers();
+// const store = createStore(rootReducer, compose(applyMiddleware(thunk), enhancer));
 
-const store = createStore(rootReducer, compose(applyMiddleware(thunk), enhancer));
+const store = configureStore({
+  reducer: rootReducer,
+  middleware: [thunk],
+  enhancers: [compose]
+});
+
+export type TRootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

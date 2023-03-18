@@ -1,15 +1,16 @@
 import React, {useMemo} from "react";
 import styles from "./IngredientDetails.module.css";
-import {useSelector} from "react-redux";
 import {useLocation, useParams} from "react-router-dom";
+import {useAppSelector} from "../../utils/hooks";
+import {TIngredient} from "../../utils/types";
 
 function IngredientDetails() {
   const location = useLocation();
-  const {ingredients: info} = useSelector(state => state.ingredients);
+  const {ingredients: info} = useAppSelector(state => state.ingredients);
   const {id} = useParams();
   const textStyle = location.state ? styles.text : styles.centeredText;
   const ingredient = useMemo(() => {
-    return info.find(item => item._id === id);
+    return info.find((item: TIngredient) => item._id === id);
   }, [info]);
   if (ingredient) {
     return (
@@ -44,7 +45,9 @@ function IngredientDetails() {
         </div>
       </div>
     )
+  } else {
+    return null
   }
-};
+}
 
 export default IngredientDetails;

@@ -1,11 +1,12 @@
-import {serverUrl, setCookie} from "../../utils/constants";
+import {serverUrl, setCookie} from "../../utils/util";
+import {Dispatch} from "redux";
 
 export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
 export const SET_REDIRECT = 'SET_REDIRECT';
 
-export function login(email, password) {
-  return function (dispatch) {
+export function login(email: string, password: string) {
+  return function (dispatch: Dispatch) {
     return fetch(`${serverUrl}auth/login`, {
       method: 'POST',
       headers: {
@@ -34,10 +35,10 @@ export function login(email, password) {
         }
       })
   }
-};
+}
 
-export function accessUserData(method, token, body) {
-  return function (dispatch) {
+export function accessUserData(method: string, token: string, body?: { [key: string]: string }) {
+  return function (dispatch: Dispatch) {
     return fetch(`${serverUrl}auth/user`, {
       method: method,
       headers: {
@@ -57,4 +58,4 @@ export function accessUserData(method, token, body) {
         }
       });
   }
-};
+}

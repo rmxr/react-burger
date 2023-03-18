@@ -1,23 +1,21 @@
-import PropTypes from "prop-types";
-
+import {TIngredient} from "./types";
 
 export const serverUrl = "https://norma.nomoreparties.space/api/";
 
-const checkResponse = (res) => {
+const checkResponse = (res: Response) => {
   if (res.ok) {
     return res.json();
   }
   return Promise.reject(`Ошибка: ${res.status}`)
 };
-
-const checkSuccess = (res) => {
+const checkSuccess = (res: Response & { success: boolean; accessToken: string; refreshToken: string; name?: string; order?: { number: number }; data?: TIngredient[] }) => {
   if (res && res.success) {
     return res;
   }
   return Promise.reject(`Ответ не success: ${res}`)
 };
 
-export const makeRequest = (endpoint, options) => {
+export const makeRequest = (endpoint: string, options?: object) => {
   return fetch(`${serverUrl}${endpoint}`, options)
     .then(checkResponse)
     .then(checkSuccess);
@@ -40,11 +38,7 @@ export function updateToken() {
     setCookie("token", authToken, {expires: 1200});
     setCookie('refreshToken', res.refreshToken, {expires: expiry});
   }).catch(err => console.error(err))
-};
-
-export function getUserInfo() {
-
-};
+}
 
 export function logout() {
   const refreshToken = getCookie("refreshToken");
@@ -61,10 +55,9 @@ export function logout() {
     deleteCookie('token');
     deleteCookie('refreshToken');
   })
-    .catch(err => console.error(err))
-};
+}
 
-export function getCookie(name) {
+export function getCookie(name: string) {
 
   var matches = document.cookie.match(new RegExp(
     "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
@@ -73,7 +66,7 @@ export function getCookie(name) {
 }
 
 // уcтанавливает cookie
-export function setCookie(name, value, props) {
+export function setCookie(name: string, value: string | number | boolean | null, props: { [key: string]: Date | number | string | boolean }) {
 
   props = props || {}
 
@@ -89,13 +82,13 @@ export function setCookie(name, value, props) {
 
   }
 
-  if (exp && exp.toUTCString) {
+  if (exp && exp instanceof Date) {
     props.expires = exp.toUTCString()
   }
 
-  value = encodeURIComponent(value)
+  value = encodeURIComponent(value!)
 
-  var updatedCookie = name + "=" + value
+  let updatedCookie = name + "=" + value;
 
   for (var propName in props) {
 
@@ -113,23 +106,8 @@ export function setCookie(name, value, props) {
 }
 
 // удаляет cookie
-export function deleteCookie(name) {
+export function deleteCookie(name: string) {
 
   setCookie(name, null, {expires: -1})
 
 }
-
-
-export const ingredientsPropType = PropTypes.shape({
-  _id: PropTypes.string,
-  name: PropTypes.string,
-  type: PropTypes.string,
-  proteins: PropTypes.number,
-  fat: PropTypes.number,
-  carbohydrates: PropTypes.number,
-  calories: PropTypes.number,
-  price: PropTypes.number,
-  image: PropTypes.string,
-  image_mobile: PropTypes.string,
-  image_large: PropTypes.string,
-});

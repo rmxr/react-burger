@@ -1,17 +1,17 @@
-import React, {useEffect} from 'react';
+import React, {FormEventHandler, useEffect} from 'react';
 import styles from "./profile.module.css";
 import {Input, Button} from "@ya.praktikum/react-developer-burger-ui-components";
 import {NavLink} from "react-router-dom";
 import {accessUserData, LOGOUT} from "../../services/actions/Auth";
-import {useDispatch, useSelector} from "react-redux";
-import {getCookie, logout, updateToken} from "../../utils/constants";
+import {getCookie, logout, updateToken} from "../../utils/util";
+import {useAppSelector, useAppDispatch} from "../../utils/hooks";
 
 function Profile() {
   const [value, setValue] = React.useState({"Name": '', "E-mail": "", "Password": ""});
-  const [type, setType] = React.useState('password');
-  const dispatch = useDispatch();
+  const [type, setType] = React.useState<'text' | 'email' | 'password'>('password');
+  const dispatch = useAppDispatch();
   const authToken = getCookie('token');
-  const {user} = useSelector(state => state.auth);
+  const {user} = useAppSelector(state => state.auth);
   const isChanged = (value.Name !== user.name) || (value["E-mail"] !== user.email);
 
   useEffect(() => {
@@ -19,7 +19,7 @@ function Profile() {
       if (!authToken) {
         updateToken().then(() => {
           const newToken = getCookie('token');
-          dispatch(accessUserData('GET', newToken));
+          dispatch(accessUserData('GET', newToken!));
           if (user.email.length !== 0) {
             setValue(
               {
@@ -45,16 +45,15 @@ function Profile() {
     , [user.email]);
 
 
-  const onSubmitClick = (e) => {
+  const submitHandler: FormEventHandler = (e) => {
     e.preventDefault();
-    dispatch(accessUserData('PATCH', authToken, {
+    dispatch(accessUserData('PATCH', authToken!, {
       'name': value.Name,
       'email': value["E-mail"],
     }))
   };
 
-  const onCancelClick = (e) => {
-    e.preventDefault();
+  const onCancelClick = () => {
     setValue(
       {
         ...value,
@@ -119,7 +118,7 @@ function Profile() {
             <span className={`${styles.transparent} text text_type_main-small mt-20`}>В этом разделе вы можете
 изменить свои персональные данные</span>
           </div>
-          <form className={styles.formContainer}>
+          <form className={styles.formContainer} onSubmit={submitHandler}>
             <Input placeholder={'Имя'} value={value.Name} icon={"EditIcon"}
                    onChange={e => setValue({...value, "Name": e.target.value})}>
             </Input>
@@ -138,7 +137,7 @@ function Profile() {
                         onClick={onCancelClick}>
                   Отмена
                 </Button>
-                <Button htmlType="submit" type="primary" size="medium" onClick={onSubmitClick}>
+                <Button htmlType="submit" type="primary" size="medium">
                   Сохранить
                 </Button>
               </div>

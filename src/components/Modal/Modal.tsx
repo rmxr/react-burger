@@ -3,13 +3,12 @@ import ReactDOM from "react-dom";
 import styles from "./Modal.module.css"
 import {CloseIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import ModalOverlay from "../ModalOverlay/ModalOverlay";
-import PropTypes from "prop-types";
 
-const modalRoot = document.getElementById("modal");
+const modalRoot = document.getElementById("modal") as HTMLElement;
 
-function Modal({onClose, children}) {
+function Modal({onClose, children}: { onClose: () => void; children: JSX.Element }) {
   React.useEffect(() => {
-    const handleEscape = (e) => {
+    const handleEscape = (e: KeyboardEvent) => {
       e.key === "Escape" && onClose();
     };
     document.addEventListener("keydown", handleEscape);
@@ -26,11 +25,6 @@ function Modal({onClose, children}) {
       </div>
     </>
   ), modalRoot)
-};
-
-Modal.propTypes = {
-  onClose: PropTypes.func,
-  children: PropTypes.element,
 }
 
 export default Modal;
