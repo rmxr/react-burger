@@ -1,4 +1,4 @@
-import {serverUrl, setCookie} from "../../utils/util";
+import {makeRequest, serverUrl, setCookie} from "../../utils/util";
 import {Dispatch} from "redux";
 
 export const LOGIN = 'LOGIN';
@@ -58,4 +58,31 @@ export function accessUserData(method: string, token: string, body?: { [key: str
         }
       });
   }
+}
+
+export function requestPasswordReset(email: string) {
+  return makeRequest("password-reset", {
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json"
+    },
+    body: JSON.stringify({
+      "email": email
+    })
+  })
+}
+
+export function resetPassword(password: string, token: string) {
+  return makeRequest('password-reset/reset', {
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json"
+    },
+    body: JSON.stringify({
+      "password": password,
+      "token": token,
+    })
+  })
 }

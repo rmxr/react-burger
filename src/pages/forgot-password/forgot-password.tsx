@@ -4,6 +4,7 @@ import {Input, Button} from "@ya.praktikum/react-developer-burger-ui-components"
 import {makeRequest} from "../../utils/util";
 import {Link} from "react-router-dom";
 import {useNavigate} from "react-router-dom";
+import {requestPasswordReset} from "../../services/actions/Auth";
 
 function ForgotPassword() {
   const navigate = useNavigate();
@@ -11,16 +12,7 @@ function ForgotPassword() {
 
   const submitForm: FormEventHandler = (e) => {
     e.preventDefault();
-    makeRequest("password-reset", {
-      method: 'POST',
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json"
-      },
-      body: JSON.stringify({
-        "email": value["E-mail"]
-      })
-    }).then(() => {
+    requestPasswordReset(value["E-mail"]).then(() => {
       navigate('/reset-password', {state: "Allow"})
     })
       .catch((err => {

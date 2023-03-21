@@ -1,10 +1,10 @@
 import React from "react";
 import styles from "./BurgerConstructorListItem.module.css";
 import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import {useDispatch} from "react-redux";
 import {REMOVE_INGREDIENT_FROM_CONSTRUCTOR} from "../../services/actions/BurgerConstructor";
 import {useDrag, useDrop} from "react-dnd";
 import {TStuffing} from "../../utils/types";
+import {useAppDispatch} from "../../utils/hooks";
 
 function BurgerConstructorListItem({text, price, thumbnail, constructorIndex, moveCard, findCard}: {
   text: string;
@@ -14,7 +14,7 @@ function BurgerConstructorListItem({text, price, thumbnail, constructorIndex, mo
   moveCard: (constructorIndex: string, atIndex: number) => void;
   findCard: (constructorIndex: string) => { stuffingItem: TStuffing; index: number };
 }) {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const deleteHandler = () => {
     dispatch({
       type: REMOVE_INGREDIENT_FROM_CONSTRUCTOR,

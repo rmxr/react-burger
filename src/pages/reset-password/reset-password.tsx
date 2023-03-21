@@ -3,6 +3,7 @@ import styles from "./reset-password.module.css";
 import {Input, Button} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import {makeRequest} from "../../utils/util";
+import {resetPassword} from "../../services/actions/Auth";
 
 function ResetPassword() {
   const [value, setValue] = React.useState({"Password": "", "Code": ""});
@@ -17,17 +18,8 @@ function ResetPassword() {
   }, [location.state]);
   const submitHandler: FormEventHandler = (e) => {
     e.preventDefault();
-    makeRequest('password-reset/reset', {
-      method: 'POST',
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json"
-      },
-      body: JSON.stringify({
-        "password": value.Password,
-        "token": value.Code,
-      })
-    }).then(res => console.log(res))
+    resetPassword(value.Password, value.Code)
+      .then(res => console.log(res))
       .catch(err => console.error(err))
   };
 
