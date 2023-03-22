@@ -1,4 +1,16 @@
-import {GET_INGREDIENTS, GET_INGREDIENTS_FAILED, GET_INGREDIENTS_SUCCESS} from "../actions/BurgerIngredients";
+import {
+  GET_INGREDIENTS,
+  GET_INGREDIENTS_FAILED,
+  GET_INGREDIENTS_SUCCESS,
+  TBurgerIngredientsActions
+} from "../actions/BurgerIngredients";
+import {TIngredient} from "../../utils/types";
+
+type TInitialState = {
+  ingredientsRequest: boolean;
+  ingredientsFailed: boolean;
+  ingredients: TIngredient[],
+}
 
 const initialState = {
   ingredientsRequest: false,
@@ -6,7 +18,7 @@ const initialState = {
   ingredients: [],
 };
 
-export const burgerIngredientsReducer = (state = initialState, action) => {
+export const burgerIngredientsReducer = (state: TInitialState = initialState, action: TBurgerIngredientsActions) => {
   switch (action.type) {
     case GET_INGREDIENTS: {
       return {

@@ -1,4 +1,11 @@
-import {LOGIN, LOGOUT, SET_REDIRECT} from "../actions/Auth";
+import {LOGIN, LOGOUT, TAuthActions} from "../actions/Auth";
+
+type TInitialState = {
+  user: {
+    email: string;
+    name: string;
+  }
+}
 
 const initialState = {
   user: {
@@ -7,7 +14,7 @@ const initialState = {
   },
 };
 
-export const authReducer = (state = initialState, action) => {
+export const authReducer = (state: TInitialState = initialState, action: TAuthActions) => {
   switch (action.type) {
     case LOGIN: {
       return {
@@ -17,12 +24,6 @@ export const authReducer = (state = initialState, action) => {
     }
     case LOGOUT: {
       return initialState;
-    }
-    case SET_REDIRECT: {
-      return {
-        ...state,
-        redirect: action.redirect,
-      }
     }
     default: {
       return state;

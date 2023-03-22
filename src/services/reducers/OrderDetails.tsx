@@ -1,4 +1,10 @@
-import {POST_ORDER, POST_ORDER_FAILED, POST_ORDER_SUCCESS} from "../actions/OrderDetails";
+import {POST_ORDER, POST_ORDER_FAILED, POST_ORDER_SUCCESS, TOrderDetailsActions} from "../actions/OrderDetails";
+
+type TInitialState = {
+  orderRequest: boolean;
+  orderFailed: boolean;
+  order: { name?: string; number?: number }
+}
 
 const initialState = {
   orderRequest: false,
@@ -6,7 +12,7 @@ const initialState = {
   order: {},
 };
 
-export const postOrderReducer = (state = initialState, action) => {
+export const postOrderReducer = (state: TInitialState = initialState, action: TOrderDetailsActions) => {
   switch (action.type) {
     case POST_ORDER: {
       return {

@@ -1,7 +1,6 @@
 import React, {FormEventHandler} from 'react';
 import styles from "./forgot-password.module.css";
 import {Input, Button} from "@ya.praktikum/react-developer-burger-ui-components";
-import {makeRequest} from "../../utils/util";
 import {Link} from "react-router-dom";
 import {useNavigate} from "react-router-dom";
 import {requestPasswordReset} from "../../services/actions/Auth";

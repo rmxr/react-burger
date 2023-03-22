@@ -9,8 +9,11 @@ import {TIngredient, TStuffing} from "../../utils/types";
 
 function Ingredient({element}: { element: TIngredient }) {
 
-  const {bun, stuffing}: { bun: TIngredient; stuffing: TStuffing[] } = useAppSelector(state => state.burgerConstructor);
-  const count = [bun, ...stuffing].filter(item => item._id === element._id).length;
+  const {
+    bun,
+    stuffing
+  }: { bun: TIngredient | null; stuffing: TStuffing[] | null } = useAppSelector(state => state.burgerConstructor);
+  const count = [bun ?? {_id: null}, ...stuffing ?? []].filter(item => item._id === element._id).length;
   const navigate = useNavigate();
   const location = useLocation();
 

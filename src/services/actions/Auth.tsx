@@ -1,12 +1,25 @@
 import {makeRequest, serverUrl, setCookie} from "../../utils/util";
 import {Dispatch} from "redux";
+import {AppDispatch} from "../../index";
+import {AppThunk} from "../../utils/types";
 
-export const LOGIN = 'LOGIN';
-export const LOGOUT = 'LOGOUT';
-export const SET_REDIRECT = 'SET_REDIRECT';
+export const LOGIN: 'LOGIN' = 'LOGIN';
+export const LOGOUT: 'LOGOUT' = 'LOGOUT';
 
-export function login(email: string, password: string) {
-  return function (dispatch: Dispatch) {
+export interface IAuthLoginAction {
+  readonly type: typeof LOGIN;
+  readonly email: string;
+  readonly name: string;
+}
+
+export interface IAuthLogoutAction {
+  readonly type: typeof LOGOUT;
+}
+
+export type TAuthActions = IAuthLoginAction | IAuthLogoutAction;
+
+export const login: AppThunk = (email: string, password: string) => {
+  return function (dispatch: AppDispatch) {
     return fetch(`${serverUrl}auth/login`, {
       method: 'POST',
       headers: {
@@ -37,7 +50,7 @@ export function login(email: string, password: string) {
   }
 }
 
-export function accessUserData(method: string, token: string, body?: { [key: string]: string }) {
+export const accessUserData: AppThunk = (method: string, token: string, body?: { [key: string]: string }) => {
   return function (dispatch: Dispatch) {
     return fetch(`${serverUrl}auth/user`, {
       method: method,

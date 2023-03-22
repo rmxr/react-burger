@@ -20,14 +20,14 @@ function BurgerConstructor() {
   const {
     bun,
     stuffing
-  }: { bun: TIngredient; stuffing: TStuffing[] } = useAppSelector(state => state.burgerConstructor);
+  }: { bun: TIngredient | null; stuffing: TStuffing[] | null } = useAppSelector(state => state.burgerConstructor);
   const {user} = useAppSelector(state => state.auth);
   const {orderRequest} = useAppSelector(state => state.order)
   const [modal, setModal] = React.useState(false);
   const openModal = () => {
     if (!orderRequest && user.email) {
       const authToken = getCookie('token');
-      dispatch(postOrder([bun._id, ...stuffing.map(item => item._id)], authToken!))
+      dispatch(postOrder([bun!._id, ...stuffing!.map(item => item._id)], authToken!))
     } else {
       navigate('/login')
     }
@@ -40,10 +40,10 @@ function BurgerConstructor() {
   // DnD Sorting
   const findCard = useCallback(
     (constructorIndex: string) => {
-      const stuffingItem = stuffing.filter((c) => `${c.constructorIndex}` === constructorIndex)[0];
+      const stuffingItem = stuffing!.filter((c) => `${c.constructorIndex}` === constructorIndex)[0];
       return {
         stuffingItem,
-        index: stuffing.indexOf(stuffingItem),
+        index: stuffing!.indexOf(stuffingItem),
       }
     },
     [stuffing],
@@ -67,7 +67,7 @@ function BurgerConstructor() {
 
   const [{isHover}, dropTarget] = useDrop({
     accept: "ingredient",
-    drop(itemID) {
+    drop(itemID: TIngredient | TStuffing) {
       dispatch({
         type: ADD_INGREDIENT_TO_CONSTRUCTOR,
         item: itemID,
@@ -77,11 +77,7 @@ function BurgerConstructor() {
     collect: monitor => ({isHover: monitor.isOver(),})
   });
   const orderTotal = () => {
-    if (bun.price) {
-      return bun.price * 2 + stuffing.reduce((acc, curr) => acc + curr.price, 0)
-    } else {
-      return stuffing.reduce((acc, curr) => acc + curr.price, 0)
-    }
+    return (bun ? bun.price * 2 : 0) + (stuffing ? stuffing.reduce((acc, curr) => acc + curr.price, 0) : 0)
   }
 
 
@@ -89,11 +85,11 @@ function BurgerConstructor() {
     <section className={`${styles.container} pt-25`}>
       <div ref={dropTarget} className={styles.listWithBuns}
            style={isHover ? {outline: "1px solid lightgreen", borderRadius: "20px"} : {}}>
-        {stuffing.length === 0 && !bun.price &&
+        {stuffing === null && bun === null &&
           <p className={styles.emptyText + " text text_type_main-default"}>Перетащите сюда ингредиенты для создания
             бургера</p>}
         <div className={styles.bun}>
-          {bun.price && <ConstructorElement
+          {bun !== null && <ConstructorElement
             key={bun._id}
             type="top"
             isLocked={true}
@@ -103,14 +99,15 @@ function BurgerConstructor() {
           />}
         </div>
         <ul ref={sortingDrop} className={styles.stuffing}>
-          {stuffing.map((item) => <BurgerConstructorListItem constructorIndex={item.constructorIndex}
-                                                             key={item.constructorIndex}
-                                                             text={item.name} price={item.price} moveCard={moveCard}
-                                                             findCard={findCard}
-                                                             thumbnail={item.image}/>)}
+          {stuffing !== null && stuffing.map((item) => <BurgerConstructorListItem
+            constructorIndex={item.constructorIndex}
+            key={item.constructorIndex}
+            text={item.name} price={item.price} moveCard={moveCard}
+            findCard={findCard}
+            thumbnail={item.image}/>)}
         </ul>
         <div className={styles.bun}>
-          {bun.price && <ConstructorElement
+          {bun !== null && <ConstructorElement
             key={bun._id}
             type="bottom"
             isLocked={true}
@@ -122,7 +119,7 @@ function BurgerConstructor() {
       </div>
       <div className={`${styles.priceAndOrder} mt-10 mr-4`}>
         <div className={`${styles.price} mr-10`}>
-          {(bun.price || stuffing.length !== 0) ? <p
+          {(bun !== null || stuffing !== null) ? <p
               className="text text_type_digits-medium mr-2">{orderTotal()}</p> :
             <p
               className="text text_type_digits-medium mr-2">0</p>
@@ -130,7 +127,7 @@ function BurgerConstructor() {
           }
           <img alt="Космобаксы" src={LargeIcon}></img>
         </div>
-        <Button disabled={!bun.price} onClick={openModal} htmlType="button" type="primary" size="medium">
+        <Button disabled={bun === null} onClick={openModal} htmlType="button" type="primary" size="medium">
           Оформить заказ
         </Button>
         {modal && <Modal onClose={closeModal}>
