@@ -3,9 +3,10 @@ import styles from "./register.module.css";
 import {Input, Button} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, useNavigate} from "react-router-dom";
 import {makeRequest} from "../../utils/util";
+import {useForm} from "../../utils/hooks";
 
 function Register() {
-  const [value, setValue] = React.useState({"Name": '', "E-mail": "", "Password": ""});
+  const [value, handleChange] = useForm({"Name": '', "E-mail": "", "Password": ""});
   const [type, setType] = React.useState<'text' | 'email' | 'password'>('password');
   const navigate = useNavigate();
   const submitHandler: FormEventHandler = (e) => {
@@ -31,16 +32,16 @@ function Register() {
         <div className={styles.container}>
           <h1 className={styles.header + " text text_type_main-medium"}>Регистрация</h1>
           <form className={styles.form} onSubmit={submitHandler}>
-            <Input placeholder={'Имя'} value={value.Name}
-                   onChange={e => setValue({...value, "Name": e.target.value})}>
+            <Input placeholder={'Имя'} value={value.Name} name={"Name"}
+                   onChange={handleChange}>
             </Input>
-            <Input placeholder={'E-mail'} value={value["E-mail"]}
-                   onChange={e => setValue({...value, "E-mail": e.target.value})}>
+            <Input placeholder={'E-mail'} value={value["E-mail"]} name={"E-mail"}
+                   onChange={handleChange}>
             </Input>
-            <Input placeholder={'Пароль'} value={value.Password} type={type} onIconClick={() => {
+            <Input placeholder={'Пароль'} value={value.Password} type={type} name={"Password"} onIconClick={() => {
               setType(type === 'password' ? 'text' : 'password')
             }}
-                   onChange={e => setValue({...value, "Password": e.target.value})}
+                   onChange={handleChange}
                    icon={type === 'password' ? 'ShowIcon' : "HideIcon"}>
             </Input>
             <Button htmlType="submit" type="primary" size="medium">

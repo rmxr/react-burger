@@ -3,9 +3,10 @@ import styles from "./reset-password.module.css";
 import {Input, Button} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import {resetPassword} from "../../services/actions/Auth";
+import {useForm} from "../../utils/hooks";
 
 function ResetPassword() {
-  const [value, setValue] = React.useState({"Password": "", "Code": ""});
+  const [value, handleChange] = useForm({"Password": "", "Code": ""});
   const [type, setType] = React.useState<'text' | 'email' | 'password'>('password');
   const navigate = useNavigate();
   const location = useLocation();
@@ -28,15 +29,16 @@ function ResetPassword() {
         <div className={styles.container}>
           <h1 className={styles.header + " text text_type_main-medium"}>Восстановление пароля</h1>
           <form className={styles.form} onSubmit={submitHandler}>
-            <Input placeholder={'Введите новый пароль'} value={value.Password} type={type} onIconClick={() => {
-              setType(type === 'password' ? 'text' : 'password')
-            }}
-                   onChange={e => setValue({...value, "Password": e.target.value})}
+            <Input placeholder={'Введите новый пароль'} value={value.Password} name={"Password"} type={type}
+                   onIconClick={() => {
+                     setType(type === 'password' ? 'text' : 'password')
+                   }}
+                   onChange={handleChange}
                    icon={type === 'password' ? 'ShowIcon' : "HideIcon"}>
             </Input>
 
-            <Input placeholder={'Введите код из письма'} value={value.Code}
-                   onChange={e => setValue({...value, "Code": e.target.value})}>
+            <Input placeholder={'Введите код из письма'} value={value.Code} name={"Code"}
+                   onChange={handleChange}>
             </Input>
             <Button htmlType="submit" type="primary" size="medium">
               Сохранить

@@ -1,0 +1,40 @@
+.circle {
+    position: relative;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: black;
+    overflow: hidden;
+    margin-right: -16px;
+}
+
+.image {
+    position: absolute;
+    height: 55px;
+    width: auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.dim {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: #1C1C21;
+    opacity: .6;
+    clip-path: circle(47%);
+}
+
+.excess {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/*linear-gradient(45deg, rgb(128, 26, 178), rgb(76, 76, 255));*/

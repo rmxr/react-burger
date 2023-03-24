@@ -4,11 +4,12 @@ import {Input, Button} from "@ya.praktikum/react-developer-burger-ui-components"
 import {Link} from "react-router-dom";
 import {useNavigate} from "react-router-dom";
 import {requestPasswordReset} from "../../services/actions/Auth";
+import {useForm} from "../../utils/hooks";
 
 function ForgotPassword() {
   const navigate = useNavigate();
-  const [value, setValue] = React.useState({"E-mail": ""});
-
+  const [value, handleChange] = useForm({"E-mail": ""});
+  
   const submitForm: FormEventHandler = (e) => {
     e.preventDefault();
     requestPasswordReset(value["E-mail"]).then(() => {
@@ -25,8 +26,8 @@ function ForgotPassword() {
         <div className={styles.container}>
           <h1 className={styles.header + " text text_type_main-medium"}>Восстановление пароля</h1>
           <form className={styles.form} onSubmit={submitForm}>
-            <Input placeholder={'Укажите e-mail'} value={value["E-mail"]}
-                   onChange={e => setValue({...value, "E-mail": e.target.value})}>
+            <Input placeholder={'Укажите e-mail'} value={value["E-mail"]} name={"E-mail"}
+                   onChange={handleChange}>
             </Input>
             <Button htmlType="submit" type="primary" size="medium">
               Восстановить

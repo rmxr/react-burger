@@ -10,7 +10,7 @@ function AppHeader() {
       <div className={styles.headerGrid}>
         <div className={styles.leftBlock}>
           <HeaderButton text={"Конструктор"} type={"burger"} href={'/'}/>
-          <HeaderButton text={"Лента заказов"} type={"list"} href={'/lenta'}/>
+          <HeaderButton text={"Лента заказов"} type={"list"} href={'/feed'}/>
         </div>
         <Link to={"/"}><Logo/></Link>
         <div className={styles.rightBlock}>

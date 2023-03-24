@@ -1,0 +1,54 @@
+.header {
+    margin: 40px auto 0;
+    width: 1240px;
+}
+
+.stats {
+    width: 580px;
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+}
+
+.readyAndPending {
+    display: flex;
+    gap: 36px;
+}
+
+.readyAndPendingItem {
+    width: 272px;
+}
+
+.numbersGrid {
+    margin-top: 24px;
+    display: grid;
+    column-gap: 8px;
+    grid-auto-flow: column;
+    grid-template-columns: repeat(2, max-content);
+    grid-template-rows: repeat(10, max-content);
+}
+
+.readyNumber {
+    display: inline-block;
+    width: 132px;
+    color: rgba(0, 204, 204, 1);
+}
+
+.pendingNumber {
+    display: inline-block;
+    width: 132px;
+}
+
+.glow {
+    text-shadow: 0 0 16px #3333ff;
+}
+
+.main {
+    margin: 20px auto 0;
+    display: grid;
+    width: 1240px;
+    height: 852px;
+    grid-template-columns: 600px 580px;
+    justify-items: center;
+    gap: 60px;
+}

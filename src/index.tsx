@@ -6,14 +6,15 @@ import reportWebVitals from './reportWebVitals';
 import {Provider} from "react-redux";
 import {compose, Dispatch} from "redux";
 import {rootReducer} from "./services/reducers";
-import thunk, {ThunkAction, ThunkDispatch} from "redux-thunk";
+import thunk from "redux-thunk";
 import {BrowserRouter as Router} from 'react-router-dom';
 import {configureStore} from "@reduxjs/toolkit";
 import {TApplicationActions} from "./utils/types";
+import {socketMiddleware} from "./utils/socketMiddleware";
 
 export const store = configureStore({
   reducer: rootReducer,
-  middleware: [thunk],
+  middleware: [thunk, socketMiddleware("wss://norma.nomoreparties.space/orders/all")],
   enhancers: [compose]
 });
 

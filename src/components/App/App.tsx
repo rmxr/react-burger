@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {Routes, Route, useLocation, useNavigate} from 'react-router-dom';
 import Register from "../../pages/register/register";
-import Home from "../../pages/home/Home"
+import Home from "../../pages/home/Home";
 import Login from "../../pages/login/login";
 import ForgotPassword from "../../pages/forgot-password/forgot-password";
 import ResetPassword from "../../pages/reset-password/reset-password";
@@ -14,6 +14,7 @@ import {getIngredients} from "../../services/actions/BurgerIngredients";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import Modal from "../Modal/Modal";
 import {useAppDispatch} from "../../utils/hooks";
+import Feed from "../../pages/feed/Feed";
 
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
       <AppHeader/>
       <Routes location={background || location}>
         <Route path="/" element={<Home/>}/>
+        <Route path="/feed" element={<Feed/>}/>
         <Route path="/register" element={<ProtectedRouteElement element={<Register/>} anon={true}/>}/>
         <Route path="/login" element={<ProtectedRouteElement element={<Login/>} anon={true}/>}/>
         <Route path="/forgot-password" element={<ProtectedRouteElement element={<ForgotPassword/>} anon={true}/>}/>

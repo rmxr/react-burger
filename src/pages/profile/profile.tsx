@@ -4,10 +4,12 @@ import {Input, Button} from "@ya.praktikum/react-developer-burger-ui-components"
 import {NavLink} from "react-router-dom";
 import {accessUserData, LOGOUT} from "../../services/actions/Auth";
 import {getCookie, logout, updateToken} from "../../utils/util";
-import {useAppSelector, useAppDispatch} from "../../utils/hooks";
+import {useAppSelector, useAppDispatch, useForm} from "../../utils/hooks";
 
 function Profile() {
-  const [value, setValue] = React.useState({"Name": '', "E-mail": "", "Password": ""});
+  const [value, handleChange, setValue] = useForm({"Name": '', "E-mail": "", "Password": ""});
+
+  // const [value, setValue] = React.useState({"Name": '', "E-mail": "", "Password": ""});
   const [type, setType] = React.useState<'text' | 'email' | 'password'>('password');
   const dispatch = useAppDispatch();
   const authToken = getCookie('token');
@@ -119,16 +121,16 @@ function Profile() {
 изменить свои персональные данные</span>
           </div>
           <form className={styles.formContainer} onSubmit={submitHandler}>
-            <Input placeholder={'Имя'} value={value.Name} icon={"EditIcon"}
-                   onChange={e => setValue({...value, "Name": e.target.value})}>
+            <Input placeholder={'Имя'} value={value.Name} icon={"EditIcon"} name={"Name"}
+                   onChange={handleChange}>
             </Input>
-            <Input placeholder={'Логин'} value={value["E-mail"]} icon={"EditIcon"}
-                   onChange={e => setValue({...value, "E-mail": e.target.value})}>
+            <Input placeholder={'Логин'} value={value["E-mail"]} icon={"EditIcon"} name={"E-mail"}
+                   onChange={handleChange}>
             </Input>
-            <Input placeholder={'Пароль'} value={value.Password} type={type} onIconClick={() => {
+            <Input placeholder={'Пароль'} value={value.Password} type={type} name={"Password"} onIconClick={() => {
               setType(type === 'password' ? 'text' : 'password')
             }}
-                   onChange={e => setValue({...value, "Password": e.target.value})}
+                   onChange={handleChange}
                    icon={type === 'password' ? 'ShowIcon' : "HideIcon"}>
             </Input>
             {isChanged ? <>
