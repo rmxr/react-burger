@@ -5,6 +5,7 @@ import PreviewCircle from "../PreviewCircle/PreviewCircle";
 import {TOrder} from "../../services/reducers/feedReducer";
 import {useAppSelector} from "../../utils/hooks";
 import {v4 as uuidv4} from 'uuid';
+import {useLocation, useNavigate} from "react-router-dom";
 
 function OrdersListItem({order}: { order: TOrder }) {
   const ingredients = useAppSelector(state => state.ingredients.ingredients);
@@ -12,7 +13,9 @@ function OrdersListItem({order}: { order: TOrder }) {
     let result: number = 0;
     if (ingredients.length && order) {
       order.ingredients.forEach((orderIngredient) => {
-        result = result + ingredients.find(item => item._id === orderIngredient)!.price;
+        const relevantIngredient = ingredients.find(item => item._id === orderIngredient)!;
+        const ingredientsPrice = relevantIngredient.type === "bun" ? relevantIngredient.price * 2 : relevantIngredient.price;
+        result = result + ingredientsPrice;
       })
     }
     return result;
@@ -31,11 +34,15 @@ function OrdersListItem({order}: { order: TOrder }) {
         <PreviewCircle image={image} alt={alt} key={uuidv4()} excess={null}/>)
     });
     return result.reverse();
-  }, [order])
+  }, [order]);
+
+  const navigate = useNavigate();
+  const location = useLocation();
 
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container}
+         onClick={() => navigate(`${location.pathname}/${order.number}`, {state: {background: location}})}>
       <div className={styles.idAndTimestamp}>
         <p className={"text text_type_digits-default"}>{`#${order.number}`}</p>
         <FormattedDate className={"text text_type_main-default text_color_inactive"}

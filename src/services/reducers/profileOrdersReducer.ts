@@ -1,8 +1,9 @@
 import {
-  FEED_CONNECTION_SUCCESS,
-  FEED_CONNECTION_ERROR,
-  FEED_CONNECTION_CLOSED,
-  FEED_GET_MESSAGE, TWSActions
+  ORDERS_CONNECTION_CLOSED,
+  ORDERS_CONNECTION_ERROR,
+  ORDERS_CONNECTION_SUCCESS,
+  ORDERS_GET_MESSAGE,
+  TWSActions
 } from "../../utils/wsActionTypes";
 
 
@@ -19,55 +20,44 @@ export type TOrder = {
 type TWSState = {
   wsConnected: boolean;
   orders: TOrder[];
-  total: number;
-  totalToday: number;
-
   error?: Event;
 }
 
 
 const initialState: TWSState = {
-  total: 0, totalToday: 0,
   wsConnected: false,
   orders: []
 };
 
-
-export const feedReducer = (state = initialState, action: TWSActions) => {
+export const profileOrdersReducer = (state = initialState, action: TWSActions) => {
   switch (action.type) {
 
-    case FEED_CONNECTION_SUCCESS:
+    case ORDERS_CONNECTION_SUCCESS:
       return {
         ...state,
         error: undefined,
         wsConnected: true
       };
-
-
-    case FEED_CONNECTION_ERROR:
+    case ORDERS_CONNECTION_ERROR:
       return {
         ...state,
         error: action.payload,
         wsConnected: false
       };
 
-
-    case FEED_CONNECTION_CLOSED:
+    case ORDERS_CONNECTION_CLOSED:
       return {
         ...state,
         error: undefined,
         wsConnected: false
       };
 
-    
-    case FEED_GET_MESSAGE:
+    case ORDERS_GET_MESSAGE:
       const parsedData = JSON.parse(action.payload)
       return {
         ...state,
         error: undefined,
         orders: parsedData.orders,
-        total: parsedData.total,
-        totalToday: parsedData.totalToday,
       };
     default:
       return state;

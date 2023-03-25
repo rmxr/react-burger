@@ -1,4 +1,5 @@
 import {TIngredient} from "./types";
+import {TFeedOrder} from "../components/FeedOrderDetails/FeedOrderDetails";
 
 export const serverUrl = "https://norma.nomoreparties.space/api/";
 
@@ -8,7 +9,7 @@ const checkResponse = (res: Response) => {
   }
   return Promise.reject(`Ошибка: ${res.status}`)
 };
-const checkSuccess = (res: Response & { success: boolean; accessToken: string; refreshToken: string; name?: string; order?: { number: number }; data?: TIngredient[] }) => {
+const checkSuccess = (res: Response & { success: boolean; accessToken: string; orders?: TFeedOrder[]; refreshToken: string; name?: string; order?: { number: number }; data?: TIngredient[] }) => {
   if (res && res.success) {
     return res;
   }

@@ -1,0 +1,23 @@
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 608px;
+}
+
+.imageAndName {
+    display: flex;
+    align-items: center;
+}
+
+.name {
+    font-weight: bold;
+    margin-left: 32px;
+    max-width: 365px;
+}
+
+.countAndPrice {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}

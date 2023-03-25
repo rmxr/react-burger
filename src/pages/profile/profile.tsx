@@ -1,7 +1,7 @@
 import React, {FormEventHandler, useEffect} from 'react';
 import styles from "./profile.module.css";
 import {Input, Button} from "@ya.praktikum/react-developer-burger-ui-components";
-import {NavLink} from "react-router-dom";
+import {NavLink, Outlet, useLocation} from "react-router-dom";
 import {accessUserData, LOGOUT} from "../../services/actions/Auth";
 import {getCookie, logout, updateToken} from "../../utils/util";
 import {useAppSelector, useAppDispatch, useForm} from "../../utils/hooks";
@@ -9,12 +9,13 @@ import {useAppSelector, useAppDispatch, useForm} from "../../utils/hooks";
 function Profile() {
   const [value, handleChange, setValue] = useForm({"Name": '', "E-mail": "", "Password": ""});
 
-  // const [value, setValue] = React.useState({"Name": '', "E-mail": "", "Password": ""});
   const [type, setType] = React.useState<'text' | 'email' | 'password'>('password');
   const dispatch = useAppDispatch();
   const authToken = getCookie('token');
   const {user} = useAppSelector(state => state.auth);
   const isChanged = (value.Name !== user.name) || (value["E-mail"] !== user.email);
+  const location = useLocation();
+  const orders = location.pathname !== "/profile";
 
   useEffect(() => {
 
@@ -67,7 +68,7 @@ function Profile() {
   return (
     <>
       <main className={styles.main}>
-        <div className={styles.container}>
+        <div className={orders ? styles.containerWithOrders : styles.container}>
           <div className={styles.navbar}>
             <NavLink
               to="/profile"
@@ -76,7 +77,7 @@ function Profile() {
                   color: isActive ? "inherit" : "",
                   lineHeight: "64px",
                 };
-              }}
+              }} end
             >
               {({isActive, isPending}) => (
                 <span
@@ -120,7 +121,7 @@ function Profile() {
             <span className={`${styles.transparent} text text_type_main-small mt-20`}>В этом разделе вы можете
 изменить свои персональные данные</span>
           </div>
-          <form className={styles.formContainer} onSubmit={submitHandler}>
+          {!orders && <form className={styles.formContainer} onSubmit={submitHandler}>
             <Input placeholder={'Имя'} value={value.Name} icon={"EditIcon"} name={"Name"}
                    onChange={handleChange}>
             </Input>
@@ -144,7 +145,8 @@ function Profile() {
                 </Button>
               </div>
             </> : null}
-          </form>
+          </form>}
+          {orders && <Outlet/>}
         </div>
       </main>
     </>

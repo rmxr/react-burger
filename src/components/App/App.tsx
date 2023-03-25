@@ -15,6 +15,8 @@ import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import Modal from "../Modal/Modal";
 import {useAppDispatch} from "../../utils/hooks";
 import Feed from "../../pages/feed/Feed";
+import FeedOrderDetails from "../FeedOrderDetails/FeedOrderDetails";
+import ProfileOrders from "../ProfileOrders/ProfileOrders";
 
 
 function App() {
@@ -41,11 +43,16 @@ function App() {
       <Routes location={background || location}>
         <Route path="/" element={<Home/>}/>
         <Route path="/feed" element={<Feed/>}/>
+        <Route path='/feed/:id' element={<FeedOrderDetails/>}/>
         <Route path="/register" element={<ProtectedRouteElement element={<Register/>} anon={true}/>}/>
         <Route path="/login" element={<ProtectedRouteElement element={<Login/>} anon={true}/>}/>
         <Route path="/forgot-password" element={<ProtectedRouteElement element={<ForgotPassword/>} anon={true}/>}/>
         <Route path="/reset-password" element={<ProtectedRouteElement element={<ResetPassword/>} anon={true}/>}/>
-        <Route path="/profile" element={<ProtectedRouteElement element={<Profile/>} anon={false}/>}/>
+        <Route path="/profile/orders/:id"
+               element={<ProtectedRouteElement element={<FeedOrderDetails/>} anon={false}/>}/>
+        <Route path="/profile" element={<ProtectedRouteElement element={<Profile/>} anon={false}/>}>
+          <Route path="orders" element={<ProfileOrders/>}/>
+        </Route>
         <Route path="/ingredients/:id" element={<IngredientDetails/>}/>
       </Routes>
       {background && (
@@ -53,6 +60,18 @@ function App() {
           <Route path="/ingredients/:id" element={
             <Modal onClose={onModalClose}>
               <IngredientDetails/>
+            </Modal>}
+          >
+          </Route>
+          <Route path="/feed/:id" element={
+            <Modal onClose={onModalClose}>
+              <FeedOrderDetails/>
+            </Modal>}
+          >
+          </Route>
+          <Route path="/profile/orders/:id" element={
+            <Modal onClose={onModalClose}>
+              <ProtectedRouteElement element={<FeedOrderDetails/>} anon={false}/>
             </Modal>}
           >
           </Route>

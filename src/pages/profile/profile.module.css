@@ -10,7 +10,12 @@
     display: grid;
     grid-template-columns: 320px 480px 320px;
     column-gap: 60px;
-    margin-top: 120px;
+}
+
+.containerWithOrders {
+    display: grid;
+    grid-template-columns: 320px 860px;
+    column-gap: 60px;
 }
 
 .transparent {
@@ -18,6 +23,7 @@
 }
 
 .navbar {
+    margin-top: 120px;
     display: flex;
     flex-direction: column;
 }
@@ -36,7 +42,6 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin-top: 180px;
 }
 
 .header {
@@ -48,6 +53,7 @@
 }
 
 form {
+    margin-top: 120px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;

@@ -2,14 +2,14 @@ import React, {useEffect, useMemo} from 'react';
 import styles from './Feed.module.css';
 import OrdersList from "../../components/OrdersList/OrdersList";
 import {useAppDispatch, useAppSelector} from "../../utils/hooks";
-import {WS_CONNECTION_END} from "../../utils/wsActionTypes";
+import {FEED_CONNECTION_START, WS_CONNECTION_END} from "../../utils/wsActionTypes";
 import {TOrder} from "../../services/reducers/feedReducer";
 import OrdersListItem from "../../components/OrdersListItem/OrdersListItem";
 
 function Feed() {
   const dispatch = useAppDispatch();
   useEffect(() => {
-    dispatch({type: 'WS_CONNECTION_START'})
+    dispatch({type: FEED_CONNECTION_START, payload: "wss://norma.nomoreparties.space/orders/all"})
     return () => {
       dispatch({type: WS_CONNECTION_END})
     }
@@ -33,13 +33,14 @@ function Feed() {
         if (result.readyOrders.length === 20) {
           return
         }
-        result.readyOrders.push(<p className={"text text_type_digits-default " + styles.readyNumber}>{el.number}</p>)
+        result.readyOrders.push(<p key={el.number}
+                                   className={"text text_type_digits-default " + styles.readyNumber}>{el.number}</p>)
       } else if (el.status === "pending") {
         if (result.pendingOrders.length === 20) {
           return
         }
-        result.pendingOrders.push(<p
-          className={"text text_type_digits-default " + styles.pendingNumber}>{el.number}</p>)
+        result.pendingOrders.push(<p key={el.number}
+                                     className={"text text_type_digits-default " + styles.pendingNumber}>{el.number}</p>)
       }
     })
     return result;
