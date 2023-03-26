@@ -7,7 +7,7 @@ import {useAppSelector} from "../../utils/hooks";
 import {v4 as uuidv4} from 'uuid';
 import {useLocation, useNavigate} from "react-router-dom";
 
-function OrdersListItem({order}: { order: TOrder }) {
+function OrdersListItem({order, status}: { order: TOrder; status: boolean }) {
   const ingredients = useAppSelector(state => state.ingredients.ingredients);
   const price = useMemo(() => {
     let result: number = 0;
@@ -38,6 +38,7 @@ function OrdersListItem({order}: { order: TOrder }) {
 
   const navigate = useNavigate();
   const location = useLocation();
+  const statusStyle = order.status === "done" ? styles.burgerDoneStatus : styles.burgerStatus
 
 
   return (
@@ -49,6 +50,8 @@ function OrdersListItem({order}: { order: TOrder }) {
                        date={new Date(order.updatedAt)}/>
       </div>
       <p className={`${styles.burgerName} text text_type_main-medium`}>{order.name}</p>
+      {status && <p
+        className={`${statusStyle} text text_type_main-small`}>{order.status === 'done' ? "Выполнен" : "Готовится"}</p>}
       <div className={styles.previewsAndPrice}>
         <div className={styles.previews}>
           {previews}

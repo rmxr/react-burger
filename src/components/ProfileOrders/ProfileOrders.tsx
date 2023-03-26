@@ -21,7 +21,7 @@ function ProfileOrders() {
   const feed = useMemo(() => {
     const result: JSX.Element[] = [];
     orders && orders.forEach((el: TOrder) => {
-      result.push(<OrdersListItem order={el} key={el._id}/>)
+      result.push(<OrdersListItem status={true} order={el} key={el._id}/>)
     })
     return result.reverse();
   }, [orders]);

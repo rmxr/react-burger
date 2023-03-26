@@ -19,7 +19,7 @@ function Feed() {
   const feed = useMemo(() => {
     const result: JSX.Element[] = [];
     orders && orders.forEach((el: TOrder) => {
-      result.push(<OrdersListItem order={el} key={el._id}/>)
+      result.push(<OrdersListItem status={false} order={el} key={el._id}/>)
     })
     return result
   }, [orders]);

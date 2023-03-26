@@ -17,6 +17,17 @@
     margin: 24px 24px 0;
 }
 
+.burgerStatus {
+    margin: 8px 24px 0;
+    font-weight: bold;
+}
+
+.burgerDoneStatus {
+    margin: 8px 24px 0;
+    font-weight: bold;
+    color: #00CCCC;
+}
+
 .previewsAndPrice {
     margin: 24px;
     display: flex;
