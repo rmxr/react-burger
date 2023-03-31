@@ -12,11 +12,12 @@ import {
   ORDERS_CONNECTION_ERROR,
   ORDERS_CONNECTION_CLOSED,
   ORDERS_GET_MESSAGE,
-  ORDERS_CONNECTION_START,
+  ORDERS_CONNECTION_START, FEED_CONNECTION_END, ORDERS_CONNECTION_END,
 } from "./wsActionTypes";
 
 type TTSActions = {
   start: typeof FEED_CONNECTION_START | typeof ORDERS_CONNECTION_START;
+  end: typeof FEED_CONNECTION_END | typeof ORDERS_CONNECTION_END;
   success: typeof FEED_CONNECTION_SUCCESS | typeof ORDERS_CONNECTION_SUCCESS;
   error: typeof FEED_CONNECTION_ERROR | typeof ORDERS_CONNECTION_ERROR;
   closed: typeof FEED_CONNECTION_CLOSED | typeof ORDERS_CONNECTION_CLOSED;
@@ -58,12 +59,12 @@ export const socketMiddleware = (wsActions: TTSActions): Middleware => {
           dispatch({type: wsActions.closed, payload: event});
         };
 
-        if (type === 'WS_SEND_MESSAGE') {
+        if (type === wsActions.sendMessage) {
           // функция для отправки сообщения на сервер
           socket.send(JSON.stringify(payload));
         }
 
-        if (type === 'WS_CONNECTION_END') {
+        if (type === wsActions.end) {
           // объект класса WebSocket
           socket.close();
         }

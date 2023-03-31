@@ -4,7 +4,6 @@ import {CurrencyIcon, FormattedDate} from "@ya.praktikum/react-developer-burger-
 import PreviewCircle from "../PreviewCircle/PreviewCircle";
 import {TOrder} from "../../services/reducers/feedReducer";
 import {useAppSelector} from "../../utils/hooks";
-import {v4 as uuidv4} from 'uuid';
 import {useLocation, useNavigate} from "react-router-dom";
 
 function OrdersListItem({order, status}: { order: TOrder; status: boolean }) {
@@ -23,15 +22,15 @@ function OrdersListItem({order, status}: { order: TOrder; status: boolean }) {
 
   const previews = useMemo(() => {
     const result: JSX.Element[] = [];
-    order && ingredients.length && order.ingredients.forEach((el) => {
+    order && ingredients.length && order.ingredients.forEach((el, index) => {
       if (result.length === 6) {
         return
       }
       const excess = order.ingredients.length - 6;
       const {image_mobile: image, name: alt} = ingredients.find(item => item._id === el)!;
       result.push((result.length === 5 && excess > 0) ?
-        <PreviewCircle image={image} alt={alt} key={uuidv4()} excess={excess}/> :
-        <PreviewCircle image={image} alt={alt} key={uuidv4()} excess={null}/>)
+        <PreviewCircle image={image} alt={alt} key={index} excess={excess}/> :
+        <PreviewCircle image={image} alt={alt} key={index} excess={null}/>)
     });
     return result.reverse();
   }, [order]);

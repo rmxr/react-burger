@@ -5,7 +5,6 @@ import {makeRequest} from "../../utils/util";
 import {useAppSelector} from "../../utils/hooks";
 import {CurrencyIcon, FormattedDate} from "@ya.praktikum/react-developer-burger-ui-components";
 import FeedOrderDetailsListItem from "../FeedOrderDetailsListItem/FeedOrderDetailsListItem";
-import {v4 as uuidv4} from 'uuid';
 
 
 export type TFeedOrder = {
@@ -25,20 +24,27 @@ function FeedOrderDetails() {
   const ingredients = useAppSelector(state => state.ingredients.ingredients);
   const {id} = useParams();
   useEffect(() => {
-    makeRequest(`orders/${id}`).then(res => setState(res.orders![0]))
+    makeRequest(`orders/${id}`).then(res => setState(res.orders![0])).catch(err => console.error(err))
   }, []);
 
   const {burgerItems, price} = useMemo(() => {
     let burgerItems: { "img": string; "name": string; "price": number; "count": number }[] = [];
     let price: number = 0;
     if (state?.ingredients.length) {
-      state.ingredients.forEach((i) => {
+      const countedIngredients: { [name: string]: number } = state.ingredients.reduce((allIngredients: { [name: string]: number }, ingr) => {
+        const currCount = allIngredients[ingr] ?? 0;
+        return {
+          ...allIngredients,
+          [ingr]: currCount + 1,
+        };
+      }, {});
+      Object.keys(countedIngredients).forEach((i) => {
         const info = ingredients.find(item => item._id === i);
         const burgerItem = {
           "img": info!.image_mobile,
           "name": info!.name,
           "price": info!.price,
-          "count": info!.type === "bun" ? 2 : 1,
+          "count": info!.type === "bun" ? countedIngredients[i] * 2 : countedIngredients[i],
         };
         burgerItems.push(burgerItem);
       })
@@ -49,8 +55,8 @@ function FeedOrderDetails() {
 
   const renderItems = useMemo(() => {
     const result: JSX.Element[] = [];
-    burgerItems && ingredients.length && burgerItems.forEach((el) => {
-      result.push(<FeedOrderDetailsListItem key={uuidv4()} image={el.img} name={el.name} price={el.price}
+    burgerItems && ingredients.length && burgerItems.forEach((el, index) => {
+      result.push(<FeedOrderDetailsListItem key={index} image={el.img} name={el.name} price={el.price}
                                             count={el.count}/>)
     })
     return result;

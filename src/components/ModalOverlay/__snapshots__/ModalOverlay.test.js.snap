@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`modalOverlay renders without mistakes 1`] = `
+<div
+  className="overlay"
+  data-testid="overlay"
+  onClick={[MockFunction]}
+/>
+`;
