@@ -59,7 +59,7 @@ export const feedReducer = (state = initialState, action: TWSActions) => {
         wsConnected: false
       };
 
-    
+
     case FEED_GET_MESSAGE:
       const parsedData = JSON.parse(action.payload)
       return {
