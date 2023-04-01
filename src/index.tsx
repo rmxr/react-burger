@@ -7,7 +7,7 @@ import {Provider} from "react-redux";
 import {compose, Dispatch} from "redux";
 import {rootReducer} from "./services/reducers";
 import thunk from "redux-thunk";
-import {BrowserRouter as Router} from 'react-router-dom';
+import {HashRouter as Router} from 'react-router-dom';
 import {configureStore} from "@reduxjs/toolkit";
 import {TApplicationActions} from "./utils/types";
 import {socketMiddleware} from "./utils/socketMiddleware";
