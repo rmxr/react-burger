@@ -26,7 +26,7 @@ type TWSState = {
 }
 
 
-const initialState: TWSState = {
+export const initialState: TWSState = {
   total: 0, totalToday: 0,
   wsConnected: false,
   orders: []

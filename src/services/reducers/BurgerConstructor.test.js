@@ -4,17 +4,15 @@ import {
   REARRANGE_CONSTRUCTOR,
   REMOVE_INGREDIENT_FROM_CONSTRUCTOR
 } from "../actions/BurgerConstructor";
+import {initialState} from "./BurgerConstructor";
 
 describe('burger constructor reducer', () => {
   it('should return the initial state', () => {
-    expect(reducer(undefined, {})).toEqual({
-      bun: null,
-      stuffing: null,
-    })
+    expect(reducer(undefined, {})).toEqual(initialState)
   })
 
   it('should handle ADD_INGREDIENT_TO_CONSTRUCTOR with bun', () => {
-    expect(reducer(undefined, {
+    expect(reducer(initialState, {
       type: ADD_INGREDIENT_TO_CONSTRUCTOR,
       item: {
         _id: "60d3b41abdacab0026a733c7",
@@ -50,7 +48,7 @@ describe('burger constructor reducer', () => {
   })
 
   it('should handle ADD_INGREDIENT_TO_CONSTRUCTOR with stuffing', () => {
-    expect(reducer(undefined, {
+    expect(reducer(initialState, {
       type: ADD_INGREDIENT_TO_CONSTRUCTOR,
       item: {
         "_id": "60d3b41abdacab0026a733cb",
@@ -326,9 +324,6 @@ describe('burger constructor reducer', () => {
       ]
     }, {
       type: CLEAR_CONSTRUCTOR,
-    })).toEqual({
-      bun: null,
-      stuffing: null,
-    })
+    })).toEqual(initialState)
   })
 })

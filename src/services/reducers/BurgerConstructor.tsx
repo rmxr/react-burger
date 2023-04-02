@@ -10,7 +10,7 @@ type TInitialState = {
   stuffing: TStuffing[] | null;
 }
 
-const initialState = {
+export const initialState = {
   bun: null,
   stuffing: null,
 };

@@ -1,44 +1,33 @@
 import {postOrderReducer as reducer} from "./OrderDetails";
 import {POST_ORDER, POST_ORDER_FAILED, POST_ORDER_SUCCESS} from "../actions/OrderDetails";
+import {initialState} from "./OrderDetails";
 
 describe('postOrder reducer', () => {
+  const postOrderState = {
+    orderRequest: true,
+    orderFailed: false,
+    order: {},
+  };
+
   it('should return the initial state', () => {
-    expect(reducer(undefined, {})).toEqual({
-      orderRequest: false,
-      orderFailed: false,
-      order: {},
-    })
+    expect(reducer(undefined, {})).toEqual(initialState)
   })
 
   it('should handle POST_ORDER', () => {
-    expect(reducer({
-      orderRequest: false,
-      orderFailed: false,
-      order: {},
-    }, {
+    expect(reducer(initialState, {
       type: POST_ORDER
-    })).toEqual({
-      orderRequest: true,
-      orderFailed: false,
-      order: {},
-    })
+    })).toEqual(postOrderState)
   })
 
   it('should handle POST_ORDER_SUCCESS', () => {
-    expect(reducer({
-      orderRequest: true,
-      orderFailed: false,
-      order: {},
-    }, {
+    expect(reducer(postOrderState, {
       "type": POST_ORDER_SUCCESS,
       "order": {
         "name": "Фалленианский флюоресцентный минеральный space альфа-сахаридный бургер",
         "number": 47034
       }
     })).toEqual({
-      "orderRequest": false,
-      "orderFailed": false,
-      "order": {
+      ...initialState, "order": {
         "name": "Фалленианский флюоресцентный минеральный space альфа-сахаридный бургер",
         "number": 47034
       }
@@ -46,11 +35,7 @@ describe('postOrder reducer', () => {
   })
 
   it('should handle POST_ORDER_FAILED', () => {
-    expect(reducer({
-      orderRequest: true,
-      orderFailed: false,
-      order: {},
-    }, {
+    expect(reducer(postOrderState, {
       type: POST_ORDER_FAILED
     })).toEqual({
       orderRequest: false,

@@ -7,7 +7,7 @@ type TInitialState = {
   }
 }
 
-const initialState = {
+export const initialState = {
   user: {
     email: "",
     name: "",

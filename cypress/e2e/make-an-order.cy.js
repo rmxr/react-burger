@@ -1,7 +1,7 @@
 describe('making an order works', () => {
   it('should handle making an order and closing the order popup', () => {
     const dataTransfer = new DataTransfer();
-    cy.visit('http://localhost:3000');
+    cy.visit('/');
     cy.get("div").contains("Соус Spicy-X").trigger('dragstart', {dataTransfer});
     cy.get('section[class^="BurgerConstructor_container_"]').as('dropTarget');
     cy.get('@dropTarget').trigger('drop', {dataTransfer});

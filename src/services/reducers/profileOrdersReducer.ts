@@ -24,7 +24,7 @@ type TWSState = {
 }
 
 
-const initialState: TWSState = {
+export const initialState: TWSState = {
   wsConnected: false,
   orders: []
 };

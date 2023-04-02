@@ -1,6 +1,6 @@
 describe('app works correctly with routes', () => {
   beforeEach(function () {
-    cy.visit('http://localhost:3000');
+    cy.visit('/');
   });
 
   it('should open constructor page by default', function () {

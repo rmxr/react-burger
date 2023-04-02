@@ -6,7 +6,7 @@ type TInitialState = {
   order: { name?: string; number?: number }
 }
 
-const initialState = {
+export const initialState = {
   orderRequest: false,
   orderFailed: false,
   order: {},

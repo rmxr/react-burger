@@ -1,35 +1,26 @@
 import {burgerIngredientsReducer as reducer} from "./BurgerIngredients";
 import {GET_INGREDIENTS, GET_INGREDIENTS_FAILED, GET_INGREDIENTS_SUCCESS} from "../actions/BurgerIngredients";
+import {initialState} from "./BurgerIngredients";
 
 describe("burger ingredients reducer", () => {
+
+  const getIngredientsState = {
+    ingredientsRequest: true,
+    ingredientsFailed: false,
+    ingredients: [],
+  };
   it('should return the initial state', () => {
-    expect(reducer(undefined, {})).toEqual({
-      ingredientsRequest: false,
-      ingredientsFailed: false,
-      ingredients: [],
-    })
+    expect(reducer(undefined, {})).toEqual(initialState)
   })
 
   it('should handle GET_INGREDIENTS', () => {
-    expect(reducer({
-      ingredientsRequest: false,
-      ingredientsFailed: false,
-      ingredients: [],
-    }, {
+    expect(reducer(initialState, {
       type: GET_INGREDIENTS,
-    })).toEqual({
-      ingredientsRequest: true,
-      ingredientsFailed: false,
-      ingredients: [],
-    })
+    })).toEqual(getIngredientsState)
   })
 
   it('should handle GET_INGREDIENTS_SUCCESS', () => {
-    expect(reducer({
-      "ingredientsRequest": true,
-      "ingredientsFailed": false,
-      "ingredients": []
-    }, {
+    expect(reducer(getIngredientsState, {
       "type": GET_INGREDIENTS_SUCCESS,
       "ingredients": [
         {
@@ -98,11 +89,7 @@ describe("burger ingredients reducer", () => {
   })
 
   it('should handle GET_INGREDIENTS_FAILED', () => {
-    expect(reducer({
-      ingredientsRequest: false,
-      ingredientsFailed: false,
-      ingredients: [],
-    }, {
+    expect(reducer(initialState, {
       type: GET_INGREDIENTS_FAILED
     })).toEqual({
       ingredientsRequest: false,
