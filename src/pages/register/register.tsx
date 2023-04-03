@@ -2,8 +2,8 @@ import React, {FormEventHandler} from 'react';
 import styles from "./register.module.css";
 import {Input, Button} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, useNavigate} from "react-router-dom";
-import {makeRequest} from "../../utils/util";
 import {useForm} from "../../utils/hooks";
+import {register} from "../../services/actions/Auth";
 
 function Register() {
   const [value, handleChange] = useForm({"Name": '', "E-mail": "", "Password": ""});
@@ -11,18 +11,7 @@ function Register() {
   const navigate = useNavigate();
   const submitHandler: FormEventHandler = (e) => {
     e.preventDefault();
-    makeRequest('auth/register', {
-      method: 'POST',
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json"
-      },
-      body: JSON.stringify({
-        "email": value["E-mail"],
-        "password": value.Password,
-        "name": value.Name
-      })
-    }).then(() => navigate('/login'))
+    register(value["E-mail"], value.Password, value.Name).then(() => navigate('/login'))
       .catch(err => console.error(err))
   };
 

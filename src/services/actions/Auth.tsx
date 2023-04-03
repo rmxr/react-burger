@@ -18,9 +18,24 @@ export interface IAuthLogoutAction {
 
 export type TAuthActions = IAuthLoginAction | IAuthLogoutAction;
 
+export const register = (email: string, password: string, name: string) => {
+  return makeRequest('auth/register', {
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json"
+    },
+    body: JSON.stringify({
+      "email": email,
+      "password": password,
+      "name": name
+    })
+  })
+}
+
 export const login: AppThunk = (email: string, password: string) => {
   return function (dispatch: AppDispatch) {
-    return fetch(`${serverUrl}auth/login`, {
+    return makeRequest(`auth/login`, {
       method: 'POST',
       headers: {
         "Content-Type": "application/json",
@@ -30,29 +45,23 @@ export const login: AppThunk = (email: string, password: string) => {
         "email": email,
         "password": password,
       })
-    }).then(res => res.json())
-      .then(res => {
-        if (res && res.success) {
-          dispatch({
-            type: LOGIN,
-            email: res.user.email,
-            name: res.user.name
-          });
-          const authToken = res.accessToken.split('Bearer ')[1];
-          const expiry = new Date(Date.now() + 1000 /*sec*/ * 60 /*min*/ * 60 /*hour*/ * 24 /*day*/ * 10);
-          setCookie("token", authToken, {expires: 1200});
-          setCookie('refreshToken', res.refreshToken, {expires: expiry});
-          return Promise.resolve();
-        } else {
-          return Promise.reject("Неверные данные");
-        }
+    }).then(res => {
+      dispatch({
+        type: LOGIN,
+        email: res.user!.email,
+        name: res.user!.name
       })
+      const authToken = res.accessToken.split('Bearer ')[1];
+      const expiry = new Date(Date.now() + 1000 /*sec*/ * 60 /*min*/ * 60 /*hour*/ * 24 /*day*/ * 10);
+      setCookie("token", authToken, {expires: 1200});
+      setCookie('refreshToken', res.refreshToken, {expires: expiry});
+    }).catch(console.error)
   }
 }
 
 export const accessUserData: AppThunk = (method: string, token: string, body?: { [key: string]: string }) => {
   return function (dispatch: Dispatch) {
-    return fetch(`${serverUrl}auth/user`, {
+    return makeRequest('auth/user', {
       method: method,
       headers: {
         "Content-Type": "application/json",
@@ -60,16 +69,13 @@ export const accessUserData: AppThunk = (method: string, token: string, body?: {
         'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify(body)
-    }).then(res => res.json())
-      .then(res => {
-        if (res && res.success) {
-          dispatch({
-            type: LOGIN,
-            email: res.user.email,
-            name: res.user.name
-          })
-        }
-      });
+    }).then((res) => {
+      dispatch({
+        type: LOGIN,
+        email: res.user!.email,
+        name: res.user!.name
+      })
+    }).catch(console.error)
   }
 }
 

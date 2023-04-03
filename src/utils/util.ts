@@ -9,7 +9,7 @@ const checkResponse = (res: Response) => {
   }
   return Promise.reject(`Ошибка: ${res.status}`)
 };
-const checkSuccess = (res: Response & { success: boolean; accessToken: string; orders?: TFeedOrder[]; refreshToken: string; name?: string; order?: { number: number }; data?: TIngredient[] }) => {
+const checkSuccess = (res: Response & { success: boolean; accessToken: string; orders?: TFeedOrder[]; refreshToken: string; name?: string; order?: { number: number }; data?: TIngredient[]; user?: { email: string; name: string } }) => {
   if (res && res.success) {
     return res;
   }
