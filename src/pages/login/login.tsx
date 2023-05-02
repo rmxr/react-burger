@@ -2,7 +2,7 @@ import React, {FormEventHandler} from 'react';
 import styles from "./login.module.css";
 import {Input, Button} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link} from "react-router-dom";
-import {login} from "../../services/actions/Auth";
+import {login} from "../../services/actions/auth";
 import {useAppDispatch, useForm} from "../../utils/hooks";
 
 

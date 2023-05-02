@@ -1,10 +1,10 @@
-import {burgerConstructorReducer as reducer} from "./BurgerConstructor";
+import {burgerConstructorReducer as reducer} from "./burgerConstructor";
 import {
   ADD_INGREDIENT_TO_CONSTRUCTOR, CLEAR_CONSTRUCTOR,
   REARRANGE_CONSTRUCTOR,
   REMOVE_INGREDIENT_FROM_CONSTRUCTOR
-} from "../actions/BurgerConstructor";
-import {initialState} from "./BurgerConstructor";
+} from "../actions/burgerConstructor";
+import {initialState} from "./burgerConstructor";
 
 describe('burger constructor reducer', () => {
   it('should return the initial state', () => {

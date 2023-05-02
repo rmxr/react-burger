@@ -2,7 +2,7 @@ import {
   ADD_INGREDIENT_TO_CONSTRUCTOR, CLEAR_CONSTRUCTOR,
   REARRANGE_CONSTRUCTOR,
   REMOVE_INGREDIENT_FROM_CONSTRUCTOR, TBurgerConstructorActions
-} from "../actions/BurgerConstructor";
+} from "../actions/burgerConstructor";
 import {TIngredient, TStuffing} from "../../utils/types";
 
 type TInitialState = {

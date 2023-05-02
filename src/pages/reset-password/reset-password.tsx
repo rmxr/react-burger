@@ -2,7 +2,7 @@ import React, {FormEventHandler, useEffect} from 'react';
 import styles from "./reset-password.module.css";
 import {Input, Button} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, useLocation, useNavigate} from "react-router-dom";
-import {resetPassword} from "../../services/actions/Auth";
+import {resetPassword} from "../../services/actions/auth";
 import {useForm} from "../../utils/hooks";
 
 function ResetPassword() {

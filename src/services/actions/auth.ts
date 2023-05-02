@@ -1,4 +1,4 @@
-import {makeRequest, serverUrl, setCookie} from "../../utils/util";
+import {makeRequest, setCookie} from "../../utils/util";
 import {Dispatch} from "redux";
 import {AppDispatch} from "../../index";
 import {AppThunk} from "../../utils/types";

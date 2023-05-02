@@ -13,12 +13,14 @@ function OrdersListItem({order, status}: { order: TOrder; status: boolean }) {
     if (ingredients.length && order) {
       order.ingredients.forEach((orderIngredient) => {
         const relevantIngredient = ingredients.find(item => item._id === orderIngredient)!;
-        const ingredientsPrice = relevantIngredient.type === "bun" ? relevantIngredient.price * 2 : relevantIngredient.price;
-        result = result + ingredientsPrice;
+        if (relevantIngredient) {
+          const ingredientsPrice = relevantIngredient.type === "bun" ? relevantIngredient.price * 2 : relevantIngredient.price;
+          result = result + ingredientsPrice;
+        }
       })
     }
     return result;
-  }, [order.ingredients, order]);
+  }, [ingredients, order]);
 
   const previews = useMemo(() => {
     const result: JSX.Element[] = [];
@@ -27,13 +29,18 @@ function OrdersListItem({order, status}: { order: TOrder; status: boolean }) {
         return
       }
       const excess = order.ingredients.length - 6;
-      const {image_mobile: image, name: alt} = ingredients.find(item => item._id === el)!;
-      result.push((result.length === 5 && excess > 0) ?
-        <PreviewCircle image={image} alt={alt} key={index} excess={excess}/> :
-        <PreviewCircle image={image} alt={alt} key={index} excess={null}/>)
+
+      if (ingredients.find(item => item._id === el)) {
+        const {image_mobile: image, name: alt} = ingredients.find(item => item._id === el)!;
+        result.push((result.length === 5 && excess > 0) ?
+          <PreviewCircle image={image} alt={alt} key={index} excess={excess}/> :
+          <PreviewCircle image={image} alt={alt} key={index} excess={null}/>)
+      }
+
+
     });
     return result.reverse();
-  }, [order]);
+  }, [ingredients, order]);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -62,6 +69,6 @@ function OrdersListItem({order, status}: { order: TOrder; status: boolean }) {
       </div>
     </div>
   )
-};
+}
 
 export default OrdersListItem;

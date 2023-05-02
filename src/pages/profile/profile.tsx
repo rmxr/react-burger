@@ -2,7 +2,7 @@ import React, {FormEventHandler, useEffect} from 'react';
 import styles from "./profile.module.css";
 import {Input, Button} from "@ya.praktikum/react-developer-burger-ui-components";
 import {NavLink, Outlet, useLocation} from "react-router-dom";
-import {accessUserData, LOGOUT} from "../../services/actions/Auth";
+import {accessUserData, LOGOUT} from "../../services/actions/auth";
 import {getCookie, logout, updateToken} from "../../utils/util";
 import {useAppSelector, useAppDispatch, useForm} from "../../utils/hooks";
 

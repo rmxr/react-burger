@@ -3,13 +3,13 @@ import styles from "./forgot-password.module.css";
 import {Input, Button} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link} from "react-router-dom";
 import {useNavigate} from "react-router-dom";
-import {requestPasswordReset} from "../../services/actions/Auth";
+import {requestPasswordReset} from "../../services/actions/auth";
 import {useForm} from "../../utils/hooks";
 
 function ForgotPassword() {
   const navigate = useNavigate();
   const [value, handleChange] = useForm({"E-mail": ""});
-  
+
   const submitForm: FormEventHandler = (e) => {
     e.preventDefault();
     requestPasswordReset(value["E-mail"]).then(() => {

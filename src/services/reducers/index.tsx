@@ -1,8 +1,8 @@
 import {combineReducers} from "redux";
-import {burgerIngredientsReducer} from "./BurgerIngredients";
-import {burgerConstructorReducer} from "./BurgerConstructor";
-import {postOrderReducer} from "./OrderDetails";
-import {authReducer} from "./Auth";
+import {burgerIngredientsReducer} from "./burgerIngredients";
+import {burgerConstructorReducer} from "./burgerConstructor";
+import {postOrderReducer} from "./orderDetails";
+import {authReducer} from "./auth";
 import {feedReducer} from "./feedReducer";
 import {profileOrdersReducer} from "./profileOrdersReducer";
 

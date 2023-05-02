@@ -1,6 +1,6 @@
-import {burgerIngredientsReducer as reducer} from "./BurgerIngredients";
-import {GET_INGREDIENTS, GET_INGREDIENTS_FAILED, GET_INGREDIENTS_SUCCESS} from "../actions/BurgerIngredients";
-import {initialState} from "./BurgerIngredients";
+import {burgerIngredientsReducer as reducer} from "./burgerIngredients";
+import {GET_INGREDIENTS, GET_INGREDIENTS_FAILED, GET_INGREDIENTS_SUCCESS} from "../actions/burgerIngredients";
+import {initialState} from "./burgerIngredients";
 
 describe("burger ingredients reducer", () => {
 

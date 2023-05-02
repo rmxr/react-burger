@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./BurgerConstructorListItem.module.css";
 import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import {REMOVE_INGREDIENT_FROM_CONSTRUCTOR} from "../../services/actions/BurgerConstructor";
+import {REMOVE_INGREDIENT_FROM_CONSTRUCTOR} from "../../services/actions/burgerConstructor";
 import {useDrag, useDrop} from "react-dnd";
 import {TStuffing} from "../../utils/types";
 import {useAppDispatch} from "../../utils/hooks";

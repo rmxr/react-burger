@@ -3,7 +3,7 @@ import styles from "./register.module.css";
 import {Input, Button} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, useNavigate} from "react-router-dom";
 import {useForm} from "../../utils/hooks";
-import {register} from "../../services/actions/Auth";
+import {register} from "../../services/actions/auth";
 
 function Register() {
   const [value, handleChange] = useForm({"Name": '', "E-mail": "", "Password": ""});

@@ -1,6 +1,6 @@
-import {postOrderReducer as reducer} from "./OrderDetails";
-import {POST_ORDER, POST_ORDER_FAILED, POST_ORDER_SUCCESS} from "../actions/OrderDetails";
-import {initialState} from "./OrderDetails";
+import {postOrderReducer as reducer} from "./orderDetails";
+import {POST_ORDER, POST_ORDER_FAILED, POST_ORDER_SUCCESS} from "../actions/orderDetails";
+import {initialState} from "./orderDetails";
 
 describe('postOrder reducer', () => {
   const postOrderState = {

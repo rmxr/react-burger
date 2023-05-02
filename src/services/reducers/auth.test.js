@@ -1,6 +1,6 @@
-import {authReducer as reducer} from "./Auth";
-import {LOGIN, LOGOUT} from "../actions/Auth";
-import {initialState} from "./Auth";
+import {authReducer as reducer} from "./auth";
+import {LOGIN, LOGOUT} from "../actions/auth";
+import {initialState} from "./auth";
 
 describe('auth reducer', () => {
   const loggedInState = {

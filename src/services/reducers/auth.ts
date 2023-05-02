@@ -1,4 +1,4 @@
-import {LOGIN, LOGOUT, TAuthActions} from "../actions/Auth";
+import {LOGIN, LOGOUT, TAuthActions} from "../actions/auth";
 
 type TInitialState = {
   user: {

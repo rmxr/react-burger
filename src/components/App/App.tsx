@@ -8,15 +8,16 @@ import ResetPassword from "../../pages/reset-password/reset-password";
 import AppHeader from "../AppHeader/AppHeader";
 import Profile from "../../pages/profile/profile";
 import {ProtectedRouteElement} from "../ProtectedRouteElement/ProtectedRouteElement";
-import {accessUserData} from "../../services/actions/Auth";
+import {accessUserData} from "../../services/actions/auth";
 import {getCookie} from "../../utils/util";
-import {getIngredients} from "../../services/actions/BurgerIngredients";
+import {getIngredients} from "../../services/actions/burgerIngredients";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import Modal from "../Modal/Modal";
 import {useAppDispatch} from "../../utils/hooks";
 import Feed from "../../pages/feed/Feed";
 import FeedOrderDetails from "../FeedOrderDetails/FeedOrderDetails";
 import ProfileOrders from "../ProfileOrders/ProfileOrders";
+import {ROUTES} from "../../constants/routes";
 
 
 function App() {
@@ -30,7 +31,7 @@ function App() {
     if (authToken) {
       dispatch(accessUserData('GET', authToken));
     }
-  }, [])
+  }, [authToken, dispatch])
 
   const onModalClose = () => {
     navigate(-1);
@@ -41,35 +42,35 @@ function App() {
     <>
       <AppHeader/>
       <Routes location={background || location}>
-        <Route path="/" element={<Home/>}/>
-        <Route path="/feed" element={<Feed/>}/>
-        <Route path='/feed/:id' element={<FeedOrderDetails/>}/>
-        <Route path="/register" element={<ProtectedRouteElement element={<Register/>} anon={true}/>}/>
-        <Route path="/login" element={<ProtectedRouteElement element={<Login/>} anon={true}/>}/>
-        <Route path="/forgot-password" element={<ProtectedRouteElement element={<ForgotPassword/>} anon={true}/>}/>
-        <Route path="/reset-password" element={<ProtectedRouteElement element={<ResetPassword/>} anon={true}/>}/>
-        <Route path="/profile/orders/:id"
+        <Route path={ROUTES.home} element={<Home/>}/>
+        <Route path={ROUTES.feed} element={<Feed/>}/>
+        <Route path={ROUTES.feedItem} element={<FeedOrderDetails/>}/>
+        <Route path={ROUTES.register} element={<ProtectedRouteElement element={<Register/>} anon={true}/>}/>
+        <Route path={ROUTES.login} element={<ProtectedRouteElement element={<Login/>} anon={true}/>}/>
+        <Route path={ROUTES.forgotPassword} element={<ProtectedRouteElement element={<ForgotPassword/>} anon={true}/>}/>
+        <Route path={ROUTES.resetPassword} element={<ProtectedRouteElement element={<ResetPassword/>} anon={true}/>}/>
+        <Route path={ROUTES.profileOrdersItem}
                element={<ProtectedRouteElement element={<FeedOrderDetails/>} anon={false}/>}/>
-        <Route path="/profile" element={<ProtectedRouteElement element={<Profile/>} anon={false}/>}>
-          <Route path="orders" element={<ProfileOrders/>}/>
+        <Route path={ROUTES.profile} element={<ProtectedRouteElement element={<Profile/>} anon={false}/>}>
+          <Route path={ROUTES.orders} element={<ProfileOrders/>}/>
         </Route>
-        <Route path="/ingredients/:id" element={<IngredientDetails/>}/>
+        <Route path={ROUTES.ingredientsItem} element={<IngredientDetails/>}/>
       </Routes>
       {background && (
         <Routes location={location}>
-          <Route path="/ingredients/:id" element={
+          <Route path={ROUTES.ingredientsItem} element={
             <Modal onClose={onModalClose}>
               <IngredientDetails/>
             </Modal>}
           >
           </Route>
-          <Route path="/feed/:id" element={
+          <Route path={ROUTES.feedItem} element={
             <Modal onClose={onModalClose}>
               <FeedOrderDetails/>
             </Modal>}
           >
           </Route>
-          <Route path="/profile/orders/:id" element={
+          <Route path={ROUTES.profileOrdersItem} element={
             <Modal onClose={onModalClose}>
               <ProtectedRouteElement element={<FeedOrderDetails/>} anon={false}/>
             </Modal>}

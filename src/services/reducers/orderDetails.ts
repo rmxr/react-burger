@@ -1,4 +1,4 @@
-import {POST_ORDER, POST_ORDER_FAILED, POST_ORDER_SUCCESS, TOrderDetailsActions} from "../actions/OrderDetails";
+import {POST_ORDER, POST_ORDER_FAILED, POST_ORDER_SUCCESS, TOrderDetailsActions} from "../actions/orderDetails";
 
 type TInitialState = {
   orderRequest: boolean;

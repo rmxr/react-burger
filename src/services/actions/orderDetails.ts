@@ -1,5 +1,5 @@
 import {makeRequest} from "../../utils/util";
-import {CLEAR_CONSTRUCTOR} from "./BurgerConstructor";
+import {CLEAR_CONSTRUCTOR} from "./burgerConstructor";
 import {Dispatch} from "redux";
 
 export const POST_ORDER: 'POST_ORDER' = 'POST_ORDER';

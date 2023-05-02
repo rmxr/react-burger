@@ -3,7 +3,7 @@ import {
   GET_INGREDIENTS_FAILED,
   GET_INGREDIENTS_SUCCESS,
   TBurgerIngredientsActions
-} from "../actions/BurgerIngredients";
+} from "../actions/burgerIngredients";
 import {TIngredient} from "../../utils/types";
 
 type TInitialState = {
