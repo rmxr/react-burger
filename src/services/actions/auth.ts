@@ -19,7 +19,7 @@ export interface IAuthLogoutAction {
 export type TAuthActions = IAuthLoginAction | IAuthLogoutAction;
 
 export const register = (email: string, password: string, name: string) => {
-  return makeRequest('auth/register', {
+  return makeRequest('auth/Register', {
     method: 'POST',
     headers: {
       "Content-Type": "application/json",

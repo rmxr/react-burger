@@ -7,7 +7,7 @@ describe('app works correctly with routes', () => {
     cy.contains('Соберите бургер');
   });
 
-  it('should open feed page after feed button click', function () {
+  it('should open Feed page after Feed button click', function () {
     cy.get('p').contains('Лента заказов').click();
     cy.contains('Готовы');
   });

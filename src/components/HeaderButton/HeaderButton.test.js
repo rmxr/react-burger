@@ -6,7 +6,7 @@ import {BrowserRouter as Router} from 'react-router-dom';
 
 it('Кнопка шапки рендерится без ошибок', () => {
   const tree = renderer
-    .create(<Router><HeaderButton text={"Лента заказов"} type={"list"} href={'/feed'}/></Router>)
+    .create(<Router><HeaderButton text={"Лента заказов"} type={"list"} href={'/Feed'}/></Router>)
     .toJSON();
   expect(tree).toMatchSnapshot();
 })

@@ -1,5 +1,5 @@
 import React, {FormEventHandler} from 'react';
-import styles from "./register.module.css";
+import styles from "./Register.module.css";
 import {Input, Button} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, useNavigate} from "react-router-dom";
 import {useForm} from "../../utils/hooks";
@@ -11,7 +11,7 @@ function Register() {
   const navigate = useNavigate();
   const submitHandler: FormEventHandler = (e) => {
     e.preventDefault();
-    register(value["E-mail"], value.Password, value.Name).then(() => navigate('/login'))
+    register(value["E-mail"], value.Password, value.Name).then(() => navigate('/Login'))
       .catch(err => console.error(err))
   };
 
