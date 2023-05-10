@@ -4,6 +4,7 @@ import {Input, Button} from "@ya.praktikum/react-developer-burger-ui-components"
 import {Link, useNavigate} from "react-router-dom";
 import {useForm} from "../../utils/hooks";
 import {register} from "../../services/actions/auth";
+import {ROUTES} from "../../constants/routes";
 
 function Register() {
   const [value, handleChange] = useForm({"Name": '', "E-mail": "", "Password": ""});
@@ -11,7 +12,7 @@ function Register() {
   const navigate = useNavigate();
   const submitHandler: FormEventHandler = (e) => {
     e.preventDefault();
-    register(value["E-mail"], value.Password, value.Name).then(() => navigate('/Login'))
+    register(value["E-mail"], value.Password, value.Name).then(() => navigate(ROUTES.login))
       .catch(err => console.error(err))
   };
 

@@ -13,6 +13,7 @@ import {getCookie} from "../../utils/util";
 import {useNavigate} from "react-router-dom";
 import {useAppSelector, useAppDispatch} from "../../utils/hooks";
 import {TIngredient, TStuffing} from "../../utils/types";
+import {ROUTES} from "../../constants/routes";
 
 
 function BurgerConstructor() {
@@ -29,7 +30,7 @@ function BurgerConstructor() {
       const authToken = getCookie('token');
       dispatch(postOrder([bun!._id, ...stuffing!.map(item => item._id)], authToken!))
     } else {
-      navigate('/Login')
+      navigate(ROUTES.login)
     }
     setModal(true)
   };
