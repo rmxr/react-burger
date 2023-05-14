@@ -7,7 +7,7 @@ import {
 } from "../../utils/wsActionTypes";
 import {initialState} from "./feedReducer";
 
-describe("feed reducer", () => {
+describe("Feed reducer", () => {
   const connectedState = {
     total: 0, totalToday: 0,
     wsConnected: true,

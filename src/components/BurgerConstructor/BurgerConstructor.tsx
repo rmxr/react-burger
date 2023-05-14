@@ -5,7 +5,7 @@ import BurgerConstructorListItem from "../BurgerConstructorListItem/BurgerConstr
 import Modal from "../Modal/Modal";
 import OrderDetails from "../OrderDetails/OrderDetails";
 import {v4 as uuidv4} from 'uuid';
-import LargeIcon from "../../images/LargeIcon.svg";
+import LargeIcon from "../../images/largeIcon.svg";
 import {useDrop} from "react-dnd";
 import {ADD_INGREDIENT_TO_CONSTRUCTOR, REARRANGE_CONSTRUCTOR} from "../../services/actions/burgerConstructor";
 import {postOrder} from "../../services/actions/orderDetails";
@@ -13,6 +13,7 @@ import {getCookie} from "../../utils/util";
 import {useNavigate} from "react-router-dom";
 import {useAppSelector, useAppDispatch} from "../../utils/hooks";
 import {TIngredient, TStuffing} from "../../utils/types";
+import {ROUTES} from "../../constants/routes";
 
 
 function BurgerConstructor() {
@@ -29,7 +30,7 @@ function BurgerConstructor() {
       const authToken = getCookie('token');
       dispatch(postOrder([bun!._id, ...stuffing!.map(item => item._id)], authToken!))
     } else {
-      navigate('/login')
+      navigate(ROUTES.login)
     }
     setModal(true)
   };

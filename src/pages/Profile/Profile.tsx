@@ -1,10 +1,11 @@
 import React, {FormEventHandler, useEffect} from 'react';
-import styles from "./profile.module.css";
+import styles from "./Profile.module.css";
 import {Input, Button} from "@ya.praktikum/react-developer-burger-ui-components";
 import {NavLink, Outlet, useLocation} from "react-router-dom";
 import {accessUserData, LOGOUT} from "../../services/actions/auth";
 import {getCookie, logout, updateToken} from "../../utils/util";
 import {useAppSelector, useAppDispatch, useForm} from "../../utils/hooks";
+import {ROUTES} from "../../constants/routes";
 
 function Profile() {
   const [value, handleChange, setValue] = useForm({"Name": '', "E-mail": "", "Password": ""});
@@ -15,7 +16,7 @@ function Profile() {
   const {user} = useAppSelector(state => state.auth);
   const isChanged = (value.Name !== user.name) || (value["E-mail"] !== user.email);
   const location = useLocation();
-  const orders = location.pathname !== "/profile";
+  const orders = location.pathname !== ROUTES.profile;
 
   useEffect(() => {
 

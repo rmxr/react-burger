@@ -1,10 +1,11 @@
 import React, {FormEventHandler} from 'react';
-import styles from "./forgot-password.module.css";
+import styles from "./ForgotPassword.module.css";
 import {Input, Button} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link} from "react-router-dom";
 import {useNavigate} from "react-router-dom";
 import {requestPasswordReset} from "../../services/actions/auth";
 import {useForm} from "../../utils/hooks";
+import {ROUTES} from "../../constants/routes";
 
 function ForgotPassword() {
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ function ForgotPassword() {
   const submitForm: FormEventHandler = (e) => {
     e.preventDefault();
     requestPasswordReset(value["E-mail"]).then(() => {
-      navigate('/reset-password', {state: "Allow"})
+      navigate(ROUTES.resetPassword, {state: "Allow"})
     })
       .catch((err => {
         console.error(err);
