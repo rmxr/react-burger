@@ -8,7 +8,7 @@ import {v4 as uuidv4} from 'uuid';
 import LargeIcon from "../../images/largeIcon.svg";
 import {useDrop} from "react-dnd";
 import {ADD_INGREDIENT_TO_CONSTRUCTOR, REARRANGE_CONSTRUCTOR} from "../../services/actions/burgerConstructor";
-import {postOrder} from "../../services/actions/orderDetails";
+import {postOrder, clearConstructor} from "../../services/actions/orderDetails";
 import {getCookie} from "../../utils/util";
 import {useNavigate} from "react-router-dom";
 import {useAppSelector, useAppDispatch} from "../../utils/hooks";
@@ -28,7 +28,8 @@ function BurgerConstructor() {
   const openModal = () => {
     if (!orderRequest && user.email) {
       const authToken = getCookie('token');
-      dispatch(postOrder([bun!._id, ...stuffing!.map(item => item._id)], authToken!))
+      dispatch(postOrder(stuffing !== null ? [bun!._id, ...stuffing!.map(item => item._id)] : [bun!._id], authToken!));
+      dispatch(clearConstructor());
     } else {
       navigate(ROUTES.login)
     }
@@ -128,9 +129,16 @@ function BurgerConstructor() {
           }
           <img alt="Космобаксы" src={LargeIcon}></img>
         </div>
-        <Button disabled={bun === null} onClick={openModal} htmlType="button" type="primary" size="medium">
-          Оформить заказ
-        </Button>
+        <div className={styles.tooltipContainer}>
+          <Button disabled={bun === null || orderRequest === true} onClick={openModal} htmlType="button"
+                  type="primary" size="medium">
+            Оформить заказ
+            {bun === null ?
+              <span className={styles.tooltipText}>Добавьте в бургер булку</span> : orderRequest === true ?
+                <span className={styles.tooltipText}>Обрабатывается предыдущий заказ</span> : null}
+          </Button>
+        </div>
+
         {modal && <Modal onClose={closeModal}>
           <OrderDetails/>
         </Modal>}

@@ -41,9 +41,6 @@ export function postOrder(ingredients: string[], authToken: string) {
         type: POST_ORDER_SUCCESS,
         order: {name: res.name, number: res.order?.number},
       })
-      dispatch({
-        type: CLEAR_CONSTRUCTOR
-      })
     })
       .catch((err => {
         console.error(err);
@@ -51,5 +48,13 @@ export function postOrder(ingredients: string[], authToken: string) {
           type: POST_ORDER_FAILED
         })
       }))
+  }
+}
+
+export function clearConstructor() {
+  return function (dispatch: Dispatch) {
+    dispatch({
+      type: CLEAR_CONSTRUCTOR
+    })
   }
 }
