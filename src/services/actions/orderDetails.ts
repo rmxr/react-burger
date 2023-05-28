@@ -52,9 +52,7 @@ export function postOrder(ingredients: string[], authToken: string) {
 }
 
 export function clearConstructor() {
-  return function (dispatch: Dispatch) {
-    dispatch({
-      type: CLEAR_CONSTRUCTOR
-    })
+  return {
+    type: CLEAR_CONSTRUCTOR
   }
 }

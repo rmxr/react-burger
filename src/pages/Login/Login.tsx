@@ -1,4 +1,4 @@
-import React, {FormEventHandler, useRef} from 'react';
+import React, {FormEventHandler} from 'react';
 import styles from "./Login.module.css";
 import {Input, Button} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link} from "react-router-dom";
@@ -7,12 +7,12 @@ import {useAppDispatch, useForm} from "../../utils/hooks";
 
 
 function Login() {
-  const [value, handleChange] = useForm({"E-mail": "", "Password": ""});
-  const [type, setType] = React.useState<"password" | "text" | "email">('password');
-  const [error, setError] = React.useState(false);
-  const [isFormValid, setFormValidity] = React.useState<boolean | undefined>(false)
+  const [value, handleChange] = useForm({"email": "", "password": ""});
+  const [passwordInputType, setPasswordInputType] = React.useState<"password" | "text">('password');
+  const [submitError, setSubmitError] = React.useState(false);
+  const [isFormValid, setFormValidity] = React.useState(false)
   const dispatch = useAppDispatch();
-  const formRef = useRef<HTMLFormElement | null>(null);
+  const formRef = React.useRef<HTMLFormElement | null>(null);
 
   const keyframes = [
     {transform: "translateX(0)"},
@@ -26,20 +26,26 @@ function Login() {
   const submitHandler: FormEventHandler = async (e) => {
     e.preventDefault();
     try {
-      await dispatch(login(value["E-mail"], value.Password))
+      await dispatch(login(value.email, value.password))
     } catch (error) {
       formRef.current?.animate(keyframes, {
         duration: 150,
         iterations: 3,
       });
-      setError(true);
+      setSubmitError(true);
       setTimeout(() => {
-        setError(false)
+        setSubmitError(false)
       }, 2500)
     }
   };
 
-  const inputHandler: FormEventHandler = () => setFormValidity(formRef.current?.checkValidity())
+  const inputHandler: FormEventHandler = () => {
+    if (formRef.current) {
+      setFormValidity(formRef.current.checkValidity())
+    }
+  }
+
+  const isPassword = passwordInputType === 'password';
 
   return (
     <main className={styles.main}>
@@ -47,20 +53,22 @@ function Login() {
         <h1 className={styles.header + " text text_type_main-medium"}>Вход</h1>
         <form ref={formRef} onInput={inputHandler} onSubmit={submitHandler}
               className={styles.form}>
-          <Input placeholder={'E-mail'} value={value["E-mail"]} name={"E-mail"}
-                 onChange={handleChange} required type='email' error={error}
+          <Input placeholder={'E-mail'} value={value.email} name={"email"}
+                 onChange={handleChange} required type='email' error={submitError}
                  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,63}$">
           </Input>
-          <Input placeholder={'Пароль'} required value={value.Password} type={type} name={"Password"}
+          <Input placeholder={'Пароль'} required value={value.password} type={passwordInputType} name={"password"}
                  onIconClick={() => {
-                   setType(type === 'password' ? 'text' : 'password')
+                   setPasswordInputType(isPassword ? 'text' : 'password')
                  }}
-                 onChange={handleChange} errorText="Неправильный пароль или e-mail" error={error}
-                 icon={type === 'password' ? 'ShowIcon' : "HideIcon"}>
+                 onChange={handleChange} errorText="Неправильный пароль или e-mail" error={submitError}
+                 icon={isPassword ? 'ShowIcon' : "HideIcon"}>
           </Input>
-          <Button disabled={!isFormValid} htmlType="submit" type="primary" size="medium">
+          <div className={styles.tooltipContainer}><Button disabled={!isFormValid} htmlType="submit" type="primary"
+                                                           size="medium">
             Войти
-          </Button>
+            {!isFormValid && <span className={styles.tooltipText}>Введите e-mail и пароль</span>}
+          </Button></div>
         </form>
         <p className={styles.alreadyRegistered + " mt-14 text text_type_main-default text_color_inactive"}>Вы — новый
           пользователь?&nbsp;

@@ -25,15 +25,37 @@ function BurgerConstructor() {
   const {user} = useAppSelector(state => state.auth);
   const {orderRequest} = useAppSelector(state => state.order)
   const [modal, setModal] = React.useState(false);
-  const openModal = () => {
-    if (!orderRequest && user.email) {
-      const authToken = getCookie('token');
-      dispatch(postOrder(stuffing !== null ? [bun!._id, ...stuffing!.map(item => item._id)] : [bun!._id], authToken!));
-      dispatch(clearConstructor());
-    } else {
-      navigate(ROUTES.login)
+  // const openModal = () => {
+  //   const authToken = getCookie('token');
+  //   if (!orderRequest && user.email && bun && authToken) {
+  //     dispatch(postOrder(stuffing !== null ? [bun._id, ...stuffing.map(item => item._id)] : [bun._id], authToken));
+  //     dispatch(clearConstructor());
+  //   } else {
+  //     navigate(ROUTES.login)
+  //   }
+  //   setModal(true)
+  // };
+
+  const isSubmitDisabled = orderRequest || bun === null;
+  const createOrder = (authToken: string) => {
+    if (isSubmitDisabled) {
+      return;
     }
-    setModal(true)
+    const stuffingIds = stuffing?.map(item => item._id) ?? [];
+    const ingredients = [bun._id, ...stuffingIds];
+    dispatch(postOrder(ingredients, authToken));
+    dispatch(clearConstructor());
+    setModal(true);
+  };
+  const handleSubmitOrder = () => {
+    const authToken = getCookie('token');
+
+    if (!authToken || !user.email) {
+      navigate(ROUTES.login)
+      return;
+    }
+
+    createOrder(authToken);
   };
   const closeModal = () => setModal(false);
   const dispatch = useAppDispatch();
@@ -130,7 +152,7 @@ function BurgerConstructor() {
           <img alt="Космобаксы" src={LargeIcon}></img>
         </div>
         <div className={styles.tooltipContainer}>
-          <Button disabled={bun === null || orderRequest === true} onClick={openModal} htmlType="button"
+          <Button disabled={bun === null || orderRequest === true} onClick={handleSubmitOrder} htmlType="button"
                   type="primary" size="medium">
             Оформить заказ
             {bun === null ?
