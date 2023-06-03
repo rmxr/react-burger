@@ -9,6 +9,14 @@
     margin-right: 16px;
 }
 
+.bun > div > span > span:last-child {
+    cursor: default;
+}
+
+/*.localClass.constructor-element__action {*/
+/*    cursor: default;*/
+/*}*/
+
 .listWithBuns {
     min-height: 656px;
     width: 100%;
@@ -58,4 +66,40 @@
     flex-direction: row;
     justify-content: flex-end;
     align-items: center;
+}
+
+.tooltipContainer {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltipContainer .tooltipText {
+    visibility: hidden;
+    width: 120px;
+    background-color: gray;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1;
+    width: 150px;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -60px;
+}
+
+.tooltipContainer .tooltipText:after {
+    content: " ";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: gray transparent transparent transparent;
+}
+
+.tooltipContainer:hover .tooltipText {
+    visibility: visible;
 }

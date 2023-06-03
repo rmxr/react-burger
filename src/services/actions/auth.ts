@@ -55,7 +55,7 @@ export const login: AppThunk = (email: string, password: string) => {
       const expiry = new Date(Date.now() + 1000 /*sec*/ * 60 /*min*/ * 60 /*hour*/ * 24 /*day*/ * 10);
       setCookie("token", authToken, {expires: 1200});
       setCookie('refreshToken', res.refreshToken, {expires: expiry});
-    }).catch(console.error)
+    })
   }
 }
 
