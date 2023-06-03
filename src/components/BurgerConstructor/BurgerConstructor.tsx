@@ -25,16 +25,6 @@ function BurgerConstructor() {
   const {user} = useAppSelector(state => state.auth);
   const {orderRequest} = useAppSelector(state => state.order)
   const [modal, setModal] = React.useState(false);
-  // const openModal = () => {
-  //   const authToken = getCookie('token');
-  //   if (!orderRequest && user.email && bun && authToken) {
-  //     dispatch(postOrder(stuffing !== null ? [bun._id, ...stuffing.map(item => item._id)] : [bun._id], authToken));
-  //     dispatch(clearConstructor());
-  //   } else {
-  //     navigate(ROUTES.login)
-  //   }
-  //   setModal(true)
-  // };
 
   const isSubmitDisabled = orderRequest || bun === null;
   const createOrder = (authToken: string) => {

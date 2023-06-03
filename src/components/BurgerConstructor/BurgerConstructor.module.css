@@ -13,6 +13,10 @@
     cursor: default;
 }
 
+/*.localClass.constructor-element__action {*/
+/*    cursor: default;*/
+/*}*/
+
 .listWithBuns {
     min-height: 656px;
     width: 100%;

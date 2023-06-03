@@ -37,12 +37,10 @@
 
 .tooltipContainer {
     position: relative;
-    display: inline-block;
 }
 
-.tooltipContainer .tooltipText {
+.tooltipText {
     visibility: hidden;
-    width: 120px;
     background-color: gray;
     color: #fff;
     text-align: center;
@@ -56,13 +54,13 @@
     margin-left: -60px;
 }
 
-.tooltipContainer .tooltipText:after {
+.tooltipText:after {
     content: " ";
     position: absolute;
     top: 100%;
-    left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
+    --border-width: 5px;
+    left: calc(50% - var(--border-width));
+    border-width: var(--border-width);
     border-style: solid;
     border-color: gray transparent transparent transparent;
 }
